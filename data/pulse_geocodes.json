@@ -1,0 +1,466 @@
+{
+  "jhawa bihar india": {
+    "timestamp": 1790515761849,
+    "result": null
+  },
+  "akhuapada odisha india": {
+    "timestamp": 1790515761867,
+    "result": null
+  },
+  "rewaghat bihar india": {
+    "timestamp": 1790515761868,
+    "result": null
+  },
+  "jagdalpur chhattisgarh india": {
+    "timestamp": 1790515761870,
+    "result": {
+      "name": "Jagdalpur",
+      "latitude": 19.08136,
+      "longitude": 82.02131,
+      "admin1": "Chhattisgarh",
+      "admin2": "Bastar",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "dibrugarh assam india": {
+    "timestamp": 1790515761871,
+    "result": {
+      "name": "Dibrugarh",
+      "latitude": 27.47989,
+      "longitude": 94.90837,
+      "admin1": "Assam",
+      "admin2": "Dibrugarh district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "sikar india": {
+    "timestamp": 1790515761875,
+    "result": {
+      "name": "Sīkar",
+      "latitude": 27.61206,
+      "longitude": 75.13996,
+      "admin1": "Rajasthan",
+      "admin2": "Sikar",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "neamatighat assam india": {
+    "timestamp": 1790515801049,
+    "result": null
+  },
+  "dheng bridge bihar india": {
+    "timestamp": 1790515801052,
+    "result": null
+  },
+  "alwar india": {
+    "timestamp": 1790515801056,
+    "result": {
+      "name": "Alwar",
+      "latitude": 27.56246,
+      "longitude": 76.625,
+      "admin1": "Rajasthan",
+      "admin2": "Alwar",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "benibad bihar india": {
+    "timestamp": 1790515801061,
+    "result": null
+  },
+  "runisaidpur bihar india": {
+    "timestamp": 1790515801068,
+    "result": null
+  },
+  "jainagar bihar india": {
+    "timestamp": 1790516358675,
+    "result": {
+      "name": "Jainagar",
+      "latitude": 26.59048,
+      "longitude": 86.13791,
+      "admin1": "Bihar",
+      "admin2": "Madhubani",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "delhi uttarakhand india": {
+    "timestamp": 1790517468982,
+    "result": null
+  },
+  "delhi delhi india": {
+    "timestamp": 1790517469015,
+    "result": null
+  },
+  "mumbai maharashtra india": {
+    "timestamp": 1790517469016,
+    "result": {
+      "name": "Mumbai",
+      "latitude": 19.07283,
+      "longitude": 72.88261,
+      "admin1": "Maharashtra",
+      "admin2": null,
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "patna bihar india": {
+    "timestamp": 1790517469022,
+    "result": {
+      "name": "Patna",
+      "latitude": 25.59408,
+      "longitude": 85.13563,
+      "admin1": "Bihar",
+      "admin2": "Patna district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "varanasi india": {
+    "timestamp": 1790517469023,
+    "result": {
+      "name": "Varanasi",
+      "latitude": 25.31668,
+      "longitude": 83.01041,
+      "admin1": "Uttar Pradesh",
+      "admin2": "Varanasi",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "delhi odisha india": {
+    "timestamp": 1790517469026,
+    "result": null
+  },
+  "bengaluru kerala india": {
+    "timestamp": 1790517469029,
+    "result": null
+  },
+  "kolkata odisha india": {
+    "timestamp": 1790517469031,
+    "result": null
+  },
+  "neamatighat jorhat assam india": {
+    "timestamp": 1790517469261,
+    "result": null
+  },
+  "runisaidpur muzaffarpur bihar india": {
+    "timestamp": 1790517469266,
+    "result": null
+  },
+  "benibad muzaffarpur bihar india": {
+    "timestamp": 1790517469267,
+    "result": null
+  },
+  "mandla madhya pradesh india": {
+    "timestamp": 1790517469269,
+    "result": {
+      "name": "Mandlā",
+      "latitude": 22.59879,
+      "longitude": 80.37115,
+      "admin1": "Madhya Pradesh",
+      "admin2": "Mandla district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "dheng bridge sitamarhi bihar india": {
+    "timestamp": 1790517469270,
+    "result": null
+  },
+  "fatehgarh uttar pradesh india": {
+    "timestamp": 1790517469275,
+    "result": {
+      "name": "Fatehgarh",
+      "latitude": 27.36409,
+      "longitude": 79.63111,
+      "admin1": "Uttar Pradesh",
+      "admin2": "Farrukhābād District",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "rewaghat muzaffarpur bihar india": {
+    "timestamp": 1790517469277,
+    "result": null
+  },
+  "rishikesh dehradun uttarakhand india": {
+    "timestamp": 1790517469287,
+    "result": null
+  },
+  "uttarkashi india": {
+    "timestamp": 1790517745383,
+    "result": {
+      "name": "Uttarkāshi",
+      "latitude": 30.72986,
+      "longitude": 78.44342,
+      "admin1": "Uttarakhand",
+      "admin2": "Uttar Kashi",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "akhuapada bhadrak odisha india": {
+    "timestamp": 1790518045435,
+    "result": null
+  },
+  "srinagar jammu and kashmir india": {
+    "timestamp": 1790518844336,
+    "result": {
+      "name": "Srinagar",
+      "latitude": 34.08565,
+      "longitude": 74.80555,
+      "admin1": "Jammu and Kashmir",
+      "admin2": "Srīnagar District",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "jaipur rajasthan india": {
+    "timestamp": 1790518844532,
+    "result": {
+      "name": "Jaipur",
+      "latitude": 26.91962,
+      "longitude": 75.78781,
+      "admin1": "Rajasthan",
+      "admin2": "Jaipur district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "pune maharashtra india": {
+    "timestamp": 1790518844741,
+    "result": {
+      "name": "Pune",
+      "latitude": 18.51957,
+      "longitude": 73.85535,
+      "admin1": "Maharashtra",
+      "admin2": "Pune",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "bengaluru karnataka india": {
+    "timestamp": 1790518844950,
+    "result": {
+      "name": "Bengaluru",
+      "latitude": 12.97194,
+      "longitude": 77.59369,
+      "admin1": "Karnataka",
+      "admin2": "Bengaluru Urban",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "chennai tamil nadu india": {
+    "timestamp": 1790518845153,
+    "result": {
+      "name": "Chennai",
+      "latitude": 13.08784,
+      "longitude": 80.27847,
+      "admin1": "Tamil Nadu",
+      "admin2": "Chennai district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "kolkata west bengal india": {
+    "timestamp": 1790518845358,
+    "result": {
+      "name": "Kolkata",
+      "latitude": 22.56263,
+      "longitude": 88.36304,
+      "admin1": "West Bengal",
+      "admin2": "Kolkata",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "guwahati assam india": {
+    "timestamp": 1790518845549,
+    "result": {
+      "name": "Guwahati",
+      "latitude": 26.1844,
+      "longitude": 91.7458,
+      "admin1": "Assam",
+      "admin2": "Kamrup Metropolitan District",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "bhubaneswar odisha india": {
+    "timestamp": 1790518845759,
+    "result": {
+      "name": "Bhubaneswar",
+      "latitude": 20.27241,
+      "longitude": 85.83385,
+      "admin1": "Odisha",
+      "admin2": "Khordha",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "hyderabad telangana india": {
+    "timestamp": 1790518845989,
+    "result": {
+      "name": "Hyderabad",
+      "latitude": 17.38405,
+      "longitude": 78.45636,
+      "admin1": "Telangana",
+      "admin2": "Hyderabad District",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "lucknow uttar pradesh india": {
+    "timestamp": 1790518846191,
+    "result": {
+      "name": "Lucknow",
+      "latitude": 26.83928,
+      "longitude": 80.92313,
+      "admin1": "Uttar Pradesh",
+      "admin2": "Lucknow",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "jammu india": {
+    "timestamp": 1790518858255,
+    "result": {
+      "name": "Jammu",
+      "latitude": 32.73528,
+      "longitude": 74.86167,
+      "admin1": "Jammu and Kashmir",
+      "admin2": "Jammu district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "jammu uttarakhand india": {
+    "timestamp": 1790518858268,
+    "result": null
+  },
+  "alwar rajasthan india": {
+    "timestamp": 1790518858271,
+    "result": {
+      "name": "Alwar",
+      "latitude": 27.56246,
+      "longitude": 76.625,
+      "admin1": "Rajasthan",
+      "admin2": "Alwar",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "sikar uttar pradesh india": {
+    "timestamp": 1790518984773,
+    "result": {
+      "name": "Sikari",
+      "latitude": 25.43406,
+      "longitude": 82.60251,
+      "admin1": "Uttar Pradesh",
+      "admin2": "Bhadohi district",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "sikar delhi india": {
+    "timestamp": 1790518984775,
+    "result": null
+  },
+  "diphu water resources karbi anglong assam india": {
+    "timestamp": 1790518984776,
+    "result": null
+  },
+  "nowgaon wrd nagaon assam india": {
+    "timestamp": 1790518984781,
+    "result": null
+  },
+  "haridwar haridwar uttarakhand india": {
+    "timestamp": 1790520628905,
+    "result": null
+  },
+  "bikaner rajasthan india": {
+    "timestamp": 1790520928596,
+    "result": {
+      "name": "Bikaner",
+      "latitude": 28.01762,
+      "longitude": 73.31495,
+      "admin1": "Rajasthan",
+      "admin2": "Bīkāner District",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "udaipur india": {
+    "timestamp": 1790521229026,
+    "result": {
+      "name": "Udaipur",
+      "latitude": 23.53333,
+      "longitude": 91.48333,
+      "admin1": "Tripura",
+      "admin2": "Gomati",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "delhi bihar india": {
+    "timestamp": 1790521229028,
+    "result": null
+  },
+  "lucknow india": {
+    "timestamp": 1790521229031,
+    "result": {
+      "name": "Lucknow",
+      "latitude": 26.83928,
+      "longitude": 80.92313,
+      "admin1": "Uttar Pradesh",
+      "admin2": "Lucknow",
+      "country": "India",
+      "countryCode": "IN"
+    }
+  },
+  "sonebarsha sitamarhi bihar india": {
+    "timestamp": 1790521639979,
+    "result": null
+  },
+  "mathani road bridge balasore odisha india": {
+    "timestamp": 1790524861216,
+    "result": null
+  },
+  "dibrugarh dibrugarh assam india": {
+    "timestamp": 1790524861222,
+    "result": null
+  },
+  "ayodhya ayodhya uttar pradesh india": {
+    "timestamp": 1790525480332,
+    "result": null
+  },
+  "bansi siddarthnagar uttar pradesh india": {
+    "timestamp": 1790525480334,
+    "result": null
+  },
+  "turtipar ballia uttar pradesh india": {
+    "timestamp": 1790525480336,
+    "result": null
+  },
+  "balrampur balrampur uttar pradesh india": {
+    "timestamp": 1790525480348,
+    "result": null
+  },
+  "gorakhpur birdghat gorakhpur uttar pradesh india": {
+    "timestamp": 1790525480351,
+    "result": null
+  },
+  "elgin bridge barabanki uttar pradesh india": {
+    "timestamp": 1790525480737,
+    "result": null
+  },
+  "kannauj kannauj uttar pradesh india": {
+    "timestamp": 1790526596782,
+    "result": null
+  }
+}

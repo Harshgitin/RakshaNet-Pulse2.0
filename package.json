@@ -1,0 +1,29 @@
+{
+  "name": "rakshanet-pulse2",
+  "version": "2.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "description": "RakshaNet disaster intelligence platform with SIH26069 National Weather Big Data Analytics module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check server.js && node --check js/script.js && node --check sw.js && node scripts/validate-project.js",
+    "preflight": "node scripts/validate-project.js",
+    "generate:vapid": "node scripts/generate-vapid.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "onnxruntime-node": "^1.29.0",
+    "pg": "^8.23.0",
+    "web-push": "^3.6.7"
+  }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshaNet | Emergency Reporting</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+</head>
+<body>
+
+
+
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="login.html" class="login-btn rn-auth-btn">
+    🔐 Register / Login
+</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+
+
+
+
+<main>    
+<section class="emergency-page">
+<div class="emergency-header"><span class="emergency-label">🚨 EMERGENCY RESPONSE</span><h1>Report an Emergency</h1><p>Send a detailed incident report so it can be reviewed, prioritized and shown on the local GIS dashboard.</p></div>
+<div class="emergency-layout">
+<div class="emergency-form-card">
+<form id="emergencyForm" enctype="multipart/form-data">
+<div class="form-section"><label>What happened?</label>
+<div class="rn-report-type-grid incident-grid">
+<button type="button" class="incident-option rn-report-type" data-type="Flood">🌊<span>Flood</span></button>
+<button type="button" class="incident-option rn-report-type" data-type="Landslide">⛰️<span>Landslide</span></button>
+<button type="button" class="incident-option rn-report-type" data-type="Fire">🔥<span>Fire</span></button>
+<button type="button" class="incident-option rn-report-type" data-type="Road Blockage">🛣️<span>Road Blockage</span></button>
+<button type="button" class="incident-option rn-report-type" data-type="Building Collapse">🏚️<span>Building Collapse</span></button>
+<button type="button" class="incident-option rn-report-type" data-type="Other">⚠️<span>Other</span></button>
+</div><input type="hidden" id="incidentType"></div>
+
+<div class="form-section"><div class="label-row"><label>Emergency Location</label><button type="button" id="locationBtn" class="location-btn">📍 Use My Location</button></div>
+<div class="location-box"><div class="location-icon">📍</div><div><strong id="locationStatus">Location not detected</strong><p id="locationText">Use GPS to attach the current position.</p></div></div>
+<input type="hidden" id="latitude"><input type="hidden" id="longitude">
+</div>
+
+<div class="form-section"><label for="reporterName">Your name</label><input class="rn-input" id="reporterName" placeholder="Full name"></div>
+<div class="form-section"><label for="contact">Contact number</label><input class="rn-input" id="contact" type="tel" placeholder="+91 XXXXX XXXXX"></div>
+<div class="form-section"><label>People affected</label><div class="number-grid"><div><span>👥 Total People</span><input class="rn-input" type="number" id="peopleCount" min="1" placeholder="1"></div><div><span>🩹 Injured</span><input class="rn-input" type="number" id="injuredCount" min="0" placeholder="0"></div><div><span>🆘 Trapped</span><input class="rn-input" type="number" id="trappedCount" min="0" placeholder="0"></div></div></div>
+<div class="form-section"><label for="description">Describe the situation</label><textarea class="rn-textarea" id="description" rows="5" placeholder="What is happening? What do responders need to know?"></textarea></div>
+<div class="form-section"><label for="evidence">Photo / camera / file <span class="optional">Optional</span></label><input class="rn-input" id="evidence" type="file" accept="image/*,video/*,.pdf,.txt" capture="environment"><small>For the browser prototype, selected files are queued locally with the report.</small><div id="evidencePreview"></div></div>
+<button type="submit" class="submit-emergency-btn" id="submitReportBtn">🚨 SEND EMERGENCY REPORT</button>
+</form>
+</div>
+<div class="emergency-info">
+<div class="info-card priority-card"><span>AI RESPONSE PRIORITY</span><div class="priority-icon">🧠</div><h3>Automatic Prioritization</h3><p>New reports receive a transparent priority score from incident type, people affected, injuries, trapped people and live regional weather risk.</p><div id="reportPriorityPreview" class="rn-alert-banner warn">Select an incident and enter people counts to preview priority.</div></div>
+<div class="info-card"><span>OFFLINE QUEUE</span><h3>📦 Sync-ready report</h3><p>If connectivity is unavailable, RakshaNet keeps the report in the browser queue. A real cloud sync service can upload the queue when a backend is added.</p></div>
+<div class="info-card emergency-contact-card"><span>NEED IMMEDIATE HELP?</span><h3>Emergency Services</h3><a href="tel:112" class="call-btn">📞 Call 112</a><small>Use national emergency services for immediate assistance.</small></div>
+</div>
+</div>
+</section>
+</main>
+<footer><div class="footer-logo">🛡️ RakshaNet</div><p>Intelligent Disaster Management & Emergency Response</p></footer>
+<script src="../js/location.js"></script><script src="../js/script.js"></script>
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

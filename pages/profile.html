@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Profile | RakshaNet</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+    <link rel="stylesheet" href="../css/navigation.css"
+    >
+
+</head>
+
+<body>
+
+
+
+
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="profile.html" class="login-btn rn-auth-btn">👤 My Profile</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+
+
+
+
+
+
+    <!-- =========================
+         PROFILE
+    ========================== -->
+
+    <main class="rn-profile-page">
+
+        <div class="rn-profile-header">
+
+            <div>
+
+                <span class="section-label">
+                    MY RAKSHANET
+                </span>
+
+                <h1>
+                    Your Emergency Profile
+                </h1>
+
+                <p>
+                    Manage your registered location and
+                    disaster alert preferences.
+                </p>
+
+            </div>
+
+
+            <div class="rn-profile-status">
+                <span class="rn-dot"></span>
+                Account Active
+            </div>
+
+        </div>
+
+
+        <div class="rn-profile-grid">
+
+
+            <!-- =========================
+                 USER DETAILS
+            ========================== -->
+
+            <section class="rn-card">
+
+                <h3>
+                    👤 Personal Information
+                </h3>
+
+                <div class="rn-profile-info">
+
+                    <div>
+                        <span>Name</span>
+                        <strong id="profileName">
+                            —
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Mobile</span>
+                        <strong id="profileMobile">
+                            —
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Email</span>
+                        <strong id="profileEmail">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 LOCATION
+            ========================== -->
+
+            <section class="rn-card">
+
+                <h3>
+                    📍 Permanent Location
+                </h3>
+
+                <div
+                    id="profileLocation"
+                    class="rn-profile-location"
+                >
+
+                    Loading location...
+
+                </div>
+
+                <p class="rn-small">
+                    RakshaNet uses this registered location
+                    to determine relevant disaster warnings.
+                </p>
+
+            </section>
+
+
+            <!-- =========================
+                 ALERTS
+            ========================== -->
+
+            <section class="rn-card rn-profile-alert-card">
+
+                <h3>
+                    🔔 Your Alert Subscriptions
+                </h3>
+
+                <p class="rn-muted">
+                    Hazards currently selected for monitoring.
+                </p>
+
+
+                <div
+                    id="profileAlerts"
+                    class="rn-profile-alerts"
+                >
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ACCOUNT ACTIONS
+            ========================== -->
+
+            <section class="rn-card">
+
+                <h3>
+                    ⚙️ Account
+                </h3>
+
+                <div class="rn-actions">
+
+                    <a
+                        href="map.html"
+                        class="rn-btn blue"
+                        style="text-decoration:none;"
+                    >
+                        🗺️ Open Live Map
+                    </a>
+
+                    <a
+                        href="../index.html#prediction"
+                        class="rn-btn"
+                        style="text-decoration:none;"
+                    >
+                        🤖 AI Prediction
+                    </a>
+
+                    <button
+                        id="logoutButton"
+                        class="rn-btn danger"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =========================
+             SMS EARLY WARNING
+        ========================== -->
+
+        <section class="rn-card rn-profile-warning">
+
+            <div class="rn-warning-icon">
+                📱
+            </div>
+
+            <div>
+
+                <span class="section-label">
+                    EARLY WARNING NETWORK
+                </span>
+
+                <h2>
+                    SMS Disaster Alerts
+                </h2>
+
+                <p>
+
+                    Your account is registered for location-based
+                    disaster monitoring. RakshaNet can deliver
+                    consented early warnings through app/browser push
+                    notifications and a server-side SMS provider.
+
+                </p>
+
+                <div class="rn-live-strip">
+
+                    <span class="rn-chip">
+                        <span class="rn-dot"></span>
+                        Location Registered
+                    </span>
+
+                    <span class="rn-chip">
+                        🔔 Alert Preferences Saved
+                    </span>
+
+                    <span class="rn-chip">
+                        📱 SMS Integration
+                        <strong
+                            id="smsIntegrationStatus"
+                            style="margin-left:4px;"
+                        >
+                            Checking
+                        </strong>
+                    </span>
+
+                </div>
+
+                <div class="rn-live-strip" style="margin-top:12px;gap:8px;flex-wrap:wrap;">
+
+                    <button
+                        id="enableAppAlerts"
+                        class="rn-btn primary"
+                        type="button"
+                    >
+                        🔔 Enable App Alerts
+                    </button>
+
+                    <button
+                        id="testAppAlert"
+                        class="rn-btn"
+                        type="button"
+                    >
+                        🧪 Test App Alert
+                    </button>
+
+                    <span
+                        id="earlyWarningStatus"
+                        class="rn-muted"
+                    >
+                        Loading delivery status…
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // =====================================================
+        // LOAD USER
+        // =====================================================
+
+        const userRaw =
+            localStorage.getItem(
+                "rakshanet_user"
+            );
+
+
+        if (!userRaw) {
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        let user = null;
+
+
+        try {
+
+            user =
+                JSON.parse(userRaw);
+
+        }
+
+        catch (error) {
+
+            localStorage.removeItem(
+                "rakshanet_user"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // =====================================================
+        // PERSONAL INFORMATION
+        // =====================================================
+
+        if (user) {
+
+            document.getElementById(
+                "profileName"
+            ).textContent =
+                user.name || "—";
+
+
+            document.getElementById(
+                "profileMobile"
+            ).textContent =
+                user.mobile || "—";
+
+
+            document.getElementById(
+                "profileEmail"
+            ).textContent =
+                user.email || "Not provided";
+
+
+            // LOCATION
+
+            const location =
+                user.permanentLocation || {};
+
+
+            document.getElementById(
+                "profileLocation"
+            ).innerHTML = `
+
+                <strong>
+                    📍 ${escapeHTML(
+                        location.name ||
+                        "Location not available"
+                    )}
+                </strong>
+
+                ${
+                    Number.isFinite(
+                        Number(location.latitude)
+                    ) &&
+                    Number.isFinite(
+                        Number(location.longitude)
+                    )
+                    ?
+                    `
+                        <small>
+                            Latitude:
+                            ${Number(location.latitude).toFixed(6)}
+                            <br>
+                            Longitude:
+                            ${Number(location.longitude).toFixed(6)}
+                        </small>
+                    `
+                    :
+                    ""
+                }
+
+            `;
+
+
+            // ALERTS
+
+            const preferences =
+                Array.isArray(
+                    user.alertPreferences
+                )
+                ?
+                user.alertPreferences
+                :
+                [];
+
+
+            const alertNames = {
+
+                heavy_rain:
+                    "🌧️ Heavy Rainfall",
+
+                flood:
+                    "🌊 Flood",
+
+                landslide:
+                    "⛰️ Landslide",
+
+                thunderstorm:
+                    "⛈️ Thunderstorm",
+
+                extreme_heat:
+                    "☀️ Extreme Heat",
+
+                cyclone:
+                    "🌀 Cyclone"
+
+            };
+
+
+            const alertsBox =
+                document.getElementById(
+                    "profileAlerts"
+                );
+
+
+            const preferenceOptions = [
+                ['heavy_rain', '🌧️ Heavy Rainfall'],
+                ['flood', '🌊 Flood'],
+                ['landslide', '⛰️ Landslide'],
+                ['thunderstorm', '⛈️ Thunderstorm'],
+                ['extreme_heat', '☀️ Extreme Heat'],
+                ['cyclone', '🌀 Cyclone']
+            ];
+            alertsBox.innerHTML = preferenceOptions.map(([key, label]) => `
+                <label class="rn-alert-option" style="margin:5px;display:inline-flex;">
+                    <input type="checkbox" data-profile-alert="${key}" ${preferences.includes(key) ? 'checked' : ''}>
+                    <span>${label}</span>
+                </label>`).join('');
+            const savePreferencesButton = document.createElement('button');
+            savePreferencesButton.type = 'button';
+            savePreferencesButton.className = 'rn-btn blue';
+            savePreferencesButton.style.marginTop = '10px';
+            savePreferencesButton.textContent = '💾 Save Alert Preferences';
+            const savePreferencesStatus = document.createElement('div');
+            savePreferencesStatus.className = 'rn-small';
+            savePreferencesStatus.style.marginTop = '7px';
+            savePreferencesButton.addEventListener('click', async () => {
+                const selected = Array.from(alertsBox.querySelectorAll('[data-profile-alert]:checked')).map(input => input.dataset.profileAlert);
+                if (!selected.length) { savePreferencesStatus.textContent = 'Select at least one hazard.'; return; }
+                savePreferencesButton.disabled = true;
+                savePreferencesStatus.textContent = 'Saving…';
+                try {
+                    const response = await fetch(`/api/auth/profile/${encodeURIComponent(user.id)}`, {
+                        method: 'PUT', headers: { 'Content-Type':'application/json' },
+                        body: JSON.stringify({ alertPreferences: selected })
+                    });
+                    const payload = await response.json();
+                    if (!response.ok || !payload.ok) throw new Error(payload.error || 'Unable to save preferences.');
+                    user = payload.user;
+                    localStorage.setItem('rakshanet_user', JSON.stringify(user));
+                    savePreferencesStatus.textContent = '✅ Preferences saved. Automatic monitoring now follows these selections.';
+                } catch (error) { savePreferencesStatus.textContent = error.message; }
+                finally { savePreferencesButton.disabled = false; }
+            });
+            alertsBox.parentElement.appendChild(savePreferencesButton);
+            alertsBox.parentElement.appendChild(savePreferencesStatus);
+            const preferenceNote = document.createElement('p');
+            preferenceNote.className = 'rn-small';
+            preferenceNote.style.marginTop = '10px';
+            preferenceNote.textContent = 'RakshaNet will monitor each selected hazard at your permanent location. Alerts are delivered through enabled app/browser push and SMS providers.';
+            alertsBox.parentElement.appendChild(preferenceNote);
+
+        }
+
+
+        // =====================================================
+        // LOGOUT
+        // =====================================================
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener(
+                "click",
+                () => {
+
+                    localStorage.removeItem(
+                        "rakshanet_user"
+                    );
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+
+
+        // =====================================================
+        // SECURITY HELPER
+        // =====================================================
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replace(
+                    /[&<>'"]/g,
+                    char =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            "'": "&#39;",
+                            '"': "&quot;"
+                        })[char]
+                );
+
+        }
+
+        // =====================================================
+        // EARLY WARNING CONTROLS
+        // =====================================================
+
+        const warningStatus = document.getElementById("earlyWarningStatus");
+        const smsStatus = document.getElementById("smsIntegrationStatus");
+        const enableAppAlerts = document.getElementById("enableAppAlerts");
+        const testAppAlert = document.getElementById("testAppAlert");
+
+        async function refreshEarlyWarningStatus() {
+            if (!window.RakshaNetNotifications) return;
+            await window.RakshaNetNotifications.renderStatus(warningStatus);
+            try {
+                const config = await window.RakshaNetNotifications.getConfig();
+                if (smsStatus) smsStatus.textContent = config.sms?.available ? "Ready" : "Not configured";
+                if (enableAppAlerts) enableAppAlerts.disabled = !config.push?.available;
+                const statusResponse = await fetch(`/api/user/alert-status/${encodeURIComponent(user.id)}`, { headers: { Accept: 'application/json' } });
+                if (statusResponse.ok) {
+                    const statusData = await statusResponse.json();
+                    const prefs = (statusData.user?.alertPreferences || []).join(', ');
+                    const push = statusData.delivery?.browserPushSubscribed ? 'Push subscribed' : 'Push not enabled';
+                    const sms = statusData.delivery?.smsConfigured ? 'SMS provider ready' : 'SMS provider not configured';
+                    const automation = statusData.delivery?.automationEnabled ? 'Automation ON' : 'Automation standby';
+                    warningStatus.textContent = `${push} · ${sms} · ${automation} · Monitoring: ${prefs || 'none'}`;
+                }
+            } catch (_) {}
+        }
+
+        enableAppAlerts?.addEventListener("click", async () => {
+            try {
+                enableAppAlerts.disabled = true;
+                await window.RakshaNetNotifications.enablePush();
+                warningStatus.textContent = "App/browser early warnings enabled.";
+            } catch (error) {
+                warningStatus.textContent = error.message;
+            } finally {
+                enableAppAlerts.disabled = false;
+                refreshEarlyWarningStatus();
+            }
+        });
+
+        testAppAlert?.addEventListener("click", async () => {
+            try {
+                testAppAlert.disabled = true;
+                const result = await window.RakshaNetNotifications.testPush();
+                warningStatus.textContent = result.ok
+                    ? "Test app alert sent."
+                    : "Test app alert failed.";
+            } catch (error) {
+                warningStatus.textContent = error.message;
+            } finally {
+                testAppAlert.disabled = false;
+            }
+        });
+
+        refreshEarlyWarningStatus();
+
+    </script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

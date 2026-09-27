@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RakshaNet Intelligence Center - satellite, sensor and disaster intelligence">
+    <title>RakshaNet | Intelligence Center</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        .intel-page {
+            min-height: 100vh;
+            padding: 92px 5% 55px;
+        }
+
+        .intel-page section {
+            padding: 0 !important;
+            scroll-margin-top: 95px;
+        }
+
+        .intel-hero {
+            max-width: 1200px;
+            margin: 0 auto 18px;
+        }
+
+        .intel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(0, 200, 255, 0.08);
+            border: 1px solid rgba(0, 200, 255, 0.22);
+            color: #00c8ff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .4px;
+        }
+
+        .intel-hero h1 {
+            margin: 14px 0 8px;
+            font-size: clamp(36px, 5vw, 54px);
+            line-height: 1.05;
+        }
+
+        .intel-hero h1 span {
+            color: #00c8ff;
+        }
+
+        .intel-hero p {
+            max-width: 860px;
+            margin: 0;
+            color: #9ca8b8;
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .intel-jump-area {
+            max-width: 1200px;
+            margin: 20px auto 22px;
+        }
+
+        .intel-jump-title {
+            margin-bottom: 10px;
+            color: #7f8b9b;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+        }
+
+        .intel-jump-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .intel-jump-card {
+            display: block;
+            padding: 15px 17px;
+            border-radius: 14px;
+            text-decoration: none;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+            transition: border-color .2s ease, background .2s ease;
+        }
+
+        .intel-jump-card:hover {
+            background: rgba(0,200,255,.06);
+            border-color: rgba(0,200,255,.30);
+        }
+
+        .intel-jump-icon {
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+
+        .intel-jump-card strong {
+            display: block;
+            color: #f4f7fb;
+            font-size: 14px;
+        }
+
+        .intel-jump-card span {
+            display: block;
+            margin-top: 4px;
+            color: #7f8b9b;
+            font-size: 11px;
+        }
+
+        .intel-status-bar {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .intel-status-card {
+            padding: 15px 17px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .status-title {
+            color: #7f8b9b;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .intel-status-card strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 18px;
+        }
+
+        .online { color: #38d996 !important; }
+        .waiting { color: #ffc857 !important; }
+        .danger-text { color: #ff5964 !important; }
+
+        .intel-section {
+            max-width: 1200px;
+            margin: 0 auto 34px;
+        }
+
+        .intel-section-heading {
+            margin-bottom: 14px;
+        }
+
+        .intel-section-heading span {
+            color: #00c8ff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .intel-section-heading h2 {
+            margin: 6px 0 5px;
+            font-size: 27px;
+            line-height: 1.2;
+        }
+
+        .intel-section-heading p {
+            margin: 0;
+            max-width: 900px;
+            color: #8f9aaa;
+            line-height: 1.55;
+            font-size: 13px;
+        }
+
+        .intel-card {
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 10px 28px rgba(0,0,0,.12);
+        }
+
+        .intel-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .intel-card-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .intel-icon {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: rgba(0,200,255,.09);
+            font-size: 23px;
+        }
+
+        .intel-card h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .intel-card-subtitle {
+            margin-top: 4px;
+            color: #8793a3;
+            font-size: 12px;
+        }
+
+        .feed-status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: rgba(56,217,150,.10);
+            color: #38d996;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        #satelliteMap {
+            width: 100%;
+            height: 385px;
+            border-radius: 13px;
+            overflow: hidden;
+            background: #071018;
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .satellite-map-info {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .satellite-map-info span {
+            color: #8f9aaa;
+            font-size: 11px;
+        }
+
+        .satellite-map-info strong { font-size: 11px; }
+
+        .leaflet-control-layers {
+            border-radius: 9px !important;
+            box-shadow: 0 3px 14px rgba(0,0,0,.30) !important;
+        }
+
+        .leaflet-control-layers-toggle {
+            width: 36px !important;
+            height: 36px !important;
+        }
+
+        .leaflet-control-zoom a {
+            width: 32px !important;
+            height: 32px !important;
+            line-height: 32px !important;
+        }
+
+        .leaflet-control-attribution { font-size: 8px !important; }
+
+        .intel-data-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .intel-data-row {
+            min-height: 52px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .intel-data-label {
+            color: #a4afbd;
+            font-size: 12px;
+        }
+
+        .intel-data-value {
+            color: #f3f6fa;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 11px;
+        }
+
+        .sensor-item {
+            padding: 16px 14px;
+            border-radius: 13px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .sensor-icon {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .sensor-name {
+            color: #8995a5;
+            font-size: 11px;
+        }
+
+        .sensor-value {
+            margin-top: 4px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .sensor-state {
+            margin-top: 4px;
+            color: #38d996;
+            font-size: 10px;
+            line-height: 1.35;
+        }
+
+        .sensor-meta {
+            margin-top: 7px;
+            color: #6f7b8b;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .pipeline-item {
+            text-align: center;
+            padding: 18px 10px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.07);
+        }
+
+        .pipe-icon { font-size: 24px; }
+
+        .pipeline-item strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .pipeline-item small {
+            display: block;
+            margin-top: 4px;
+            color: #7f8b9b;
+            font-size: 10px;
+        }
+
+        .back-top {
+            display: inline-block;
+            margin-top: 13px;
+            color: #00c8ff;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .back-top:hover { text-decoration: underline; }
+
+        .intel-note {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 17px;
+            border-radius: 13px;
+            background: rgba(0,200,255,.045);
+            border: 1px solid rgba(0,200,255,.15);
+            color: #9faaba;
+            line-height: 1.55;
+            font-size: 11px;
+        }
+
+
+        .intel-location-bar {
+            max-width: 1200px;
+            margin: 0 auto 18px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.08);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .intel-field label {
+            display: block;
+            margin-bottom: 6px;
+            color: #7f8b9b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .intel-select,
+        .intel-input {
+            width: 100%;
+            min-height: 42px;
+            padding: 9px 11px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(0,0,0,.18);
+            color: #f3f6fa;
+            outline: none;
+        }
+
+        .intel-input::placeholder {
+            color: #687486;
+        }
+
+        .intel-select:focus,
+        .intel-input:focus {
+            border-color: rgba(0,200,255,.40);
+        }
+
+        .intel-action-btn {
+            min-height: 42px;
+            padding: 9px 16px;
+            border: 1px solid rgba(0,200,255,.28);
+            border-radius: 10px;
+            background: rgba(0,200,255,.09);
+            color: #dff8ff;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .intel-action-btn:hover {
+            background: rgba(0,200,255,.15);
+        }
+
+        .intel-location-meta {
+            max-width: 1200px;
+            margin: -9px auto 20px;
+            color: #6f7b8b;
+            font-size: 10px;
+        }
+
+        .fusion-card {
+            max-width: 1200px;
+            margin: 0 auto 34px;
+        }
+
+        .fusion-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 11px;
+        }
+
+        .fusion-item {
+            padding: 15px 14px;
+            border-radius: 13px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .fusion-label {
+            color: #8995a5;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .fusion-value {
+            margin-top: 5px;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .fusion-note {
+            margin-top: 14px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.025);
+            color: #8f9aaa;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .source-chip {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 4px 7px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.05);
+            color: #7f8b9b;
+            font-size: 9px;
+        }
+
+        .sensor-source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            color: #7f8b9b;
+            font-size: 9px;
+        }
+
+        @media (max-width: 1100px) {
+            .sensor-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 900px) {
+            .intel-jump-grid { grid-template-columns: 1fr; }
+            .intel-status-bar { grid-template-columns: repeat(2, 1fr); }
+            .intel-data-list { grid-template-columns: 1fr; }
+            .sensor-grid { grid-template-columns: repeat(2, 1fr); }
+            .pipeline { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .intel-page { padding: 85px 4% 40px; }
+            .intel-status-bar { grid-template-columns: 1fr; }
+            .sensor-grid, .pipeline { grid-template-columns: 1fr; }
+            #satelliteMap { height: 300px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="login.html" class="login-btn rn-auth-btn">🔐 Register / Login</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+<main class="intel-page">
+
+    <section class="intel-hero" id="top">
+        <div class="intel-badge">🛰️ RAKSHANET INTELLIGENCE NETWORK</div>
+        <h1>Observe. <span>Understand.</span> Predict.</h1>
+        <p>
+            RakshaNet combines satellite observations, ground sensor measurements
+            and disaster intelligence to build a multi-source picture of changing
+            environmental conditions.
+        </p>
+    </section>
+
+    <div class="intel-location-bar">
+        <div class="intel-field" style="grid-column:1 / -1;">
+            <label>Location Source</label>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+                <button id="intelUseCurrentLocation" class="intel-action-btn" type="button">📍 Current Location</button>
+                <input id="intelSearchLocation" class="intel-input" style="min-width:240px;flex:1;" placeholder="Search city, district, state or village">
+                <button id="intelSearchLocationBtn" class="intel-action-btn" type="button">🔎 Search Location</button>
+            </div>
+            <div id="intelLocationChoices" class="rn-small" style="margin-top:8px;"></div><div id="intelLocationSource" class="rn-small" style="margin-top:6px;opacity:.85;">Source: Monitoring Focus</div>
+        </div>
+        <div class="intel-field">
+            <label for="intelRegionSelect">Monitoring Focus</label>
+            <select id="intelRegionSelect" class="intel-select">
+                <option value="assam">Assam — government telemetry + weather</option>
+                <option value="sikkim">Sikkim — coordinate weather</option>
+                <option value="arunachal">Arunachal Pradesh — coordinate weather</option>
+                <option value="meghalaya">Meghalaya — coordinate weather</option>
+                <option value="uttarakhand">Uttarakhand — coordinate weather</option>
+                <option value="himachal">Himachal Pradesh — coordinate weather</option>
+                <option value="maharashtra">Maharashtra — coordinate weather</option>
+                <option value="kerala">Kerala — coordinate weather</option>
+                <option value="odisha">Odisha — coordinate weather</option>
+                <option value="india">India — national focus</option>
+                <option value="custom">Custom coordinates</option>
+            </select>
+        </div>
+
+        <div class="intel-field">
+            <label for="intelLatitude">Latitude</label>
+            <input id="intelLatitude" class="intel-input" placeholder="e.g. 26.2006">
+        </div>
+
+        <div class="intel-field">
+            <label for="intelLongitude">Longitude</label>
+            <input id="intelLongitude" class="intel-input" placeholder="e.g. 92.9376">
+        </div>
+
+        <button id="applyIntelligenceLocation" class="intel-action-btn" type="button">
+            🔄 Analyze Location
+        </button>
+    </div>
+
+    <div id="intelLocationMeta" class="intel-location-meta">
+        Loading unified intelligence layer…
+    </div>
+
+    <div class="intel-jump-area">
+        <div class="intel-jump-title">INTELLIGENCE MODULES</div>
+
+        <div class="intel-jump-grid">
+            <a href="#satellite" class="intel-jump-card">
+                <div class="intel-jump-icon">🛰️</div>
+                <strong>Satellite Intelligence</strong>
+                <span>Earth observation & environmental signals →</span>
+            </a>
+
+            <a href="#sensors" class="intel-jump-card">
+                <div class="intel-jump-icon">📡</div>
+                <strong>Sensor Intelligence</strong>
+                <span>Government telemetry & ground measurements →</span>
+            </a>
+
+            <a href="#pipeline" class="intel-jump-card">
+                <div class="intel-jump-icon">🧠</div>
+                <strong>Intelligence Pipeline</strong>
+                <span>Data fusion → AI → alerts →</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="intel-status-bar">
+        <div class="intel-status-card">
+            <div class="status-title">Satellite Feed</div>
+            <strong id="satelliteStatus" class="online">CONNECTED</strong>
+        </div>
+
+        <div class="intel-status-card">
+            <div class="status-title">Sensor Network</div>
+            <strong id="sensorStatus" class="waiting">CHECKING</strong>
+        </div>
+
+        <div class="intel-status-card">
+            <div class="status-title">Data Processing</div>
+            <strong class="online">READY</strong>
+        </div>
+
+        <div class="intel-status-card">
+            <div class="status-title">Intelligence Update</div>
+            <strong id="lastUpdate">--</strong>
+        </div>
+    </div>
+
+    <!-- UNIFIED INTELLIGENCE -->
+    <section class="fusion-card">
+        <div class="intel-card">
+            <div class="intel-card-header">
+                <div class="intel-card-title">
+                    <div class="intel-icon">🧠</div>
+                    <div>
+                        <h3>Unified Intelligence Snapshot</h3>
+                        <div class="intel-card-subtitle">Normalized data → AI-ready features → preliminary model output</div>
+                    </div>
+                </div>
+                <div class="feed-status" id="fusionStatus">CHECKING</div>
+            </div>
+
+            <div class="fusion-grid">
+                <div class="fusion-item">
+                    <div class="fusion-label">Location</div>
+                    <div class="fusion-value" id="fusionLocation">--</div>
+                    <div class="source-chip" id="fusionCoordinates">--</div>
+                </div>
+                <div class="fusion-item">
+                    <div class="fusion-label">Data Inputs</div>
+                    <div class="fusion-value" id="fusionInputs">--</div>
+                    <div class="source-chip" id="fusionStage">--</div>
+                </div>
+                <div class="fusion-item">
+                    <div class="fusion-label">AI Features</div>
+                    <div class="fusion-value" id="fusionFeatures">--</div>
+                    <div class="source-chip" id="fusionModelStatus">--</div>
+                </div>
+                <div class="fusion-item">
+                    <div class="fusion-label">Preliminary Model</div>
+                    <div class="fusion-value" id="fusionRisk">--</div>
+                    <div class="source-chip" id="fusionPriority">Not an official warning</div>
+                </div>
+            </div>
+
+            <div class="fusion-note" id="fusionNote">
+                Unified intelligence is loading. Source observations will be labeled with their provider and observation time.
+            </div>
+        </div>
+    </section>
+
+    <section class="intel-section" id="live-hazards">
+        <div class="intel-section-heading">
+            <span>🚨 LIVE HAZARD INTELLIGENCE</span>
+            <h2>Current Situation for Selected Location</h2>
+            <p>Live weather, river-discharge guidance and official warnings are combined into hazard-specific indices. These indices are decision-support signals, not guaranteed probabilities.</p>
+        </div>
+        <div class="intel-card">
+            <div class="intel-data-list">
+                <div class="intel-data-row"><span class="intel-data-label">🌊 Flood / hydrological stress</span><span id="liveFloodScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">🌧️ Heavy rainfall</span><span id="liveRainScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">⛰️ Landslide ML</span><span id="liveLandslideScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">⛈️ Thunderstorm</span><span id="liveStormScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">☀️ Extreme heat</span><span id="liveHeatScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">🌀 Cyclone</span><span id="liveCycloneScore" class="intel-data-value">--</span></div>
+                <div class="intel-data-row"><span class="intel-data-label">📢 Official warning</span><span id="liveOfficialWarning" class="intel-data-value">--</span></div>
+            </div>
+            <div id="liveHazardNote" class="fusion-note" style="margin-top:12px;">Waiting for live hazard analysis…</div>
+        </div>
+    </section>
+
+    <section class="intel-section" id="forecast">
+        <div class="intel-section-heading">
+            <span>📅 WEATHER-LINKED FORECAST</span>
+            <h2>Next 7 Days</h2>
+            <p>Forecast-based hazard indices update with the selected location. They are guidance signals, not guaranteed event probabilities.</p>
+        </div>
+        <div class="intel-card">
+            <div id="intelForecastGrid" class="intel-data-list"><div class="intel-muted">Forecast loading…</div></div>
+        </div>
+    </section>
+
+
+    <section class="intel-section" id="ner-live">
+        <div class="intel-section-heading">
+            <span>🗺️ NER LIVE HAZARD OVERVIEW</span>
+            <h2>North Eastern Region — Live Multi-Hazard Status</h2>
+            <p>Each state marker combines current/forecast weather and hydrology guidance with matched official NDMA/SACHET alerts. Earthquake activity is shown separately from landslide/flood indices.</p>
+        </div>
+        <div class="intel-card">
+            <div id="nerLiveOverview" class="intel-data-list">
+                <div class="intel-muted">Loading live NER hazard overview…</div>
+            </div>
+            <div class="fusion-note" id="nerLiveOverviewMeta" style="margin-top:12px;">Live overview refreshes with the backend hazard cache.</div>
+        </div>
+    </section>
+
+    <!-- SATELLITE -->
+    <section class="intel-section" id="satellite">
+        <div class="intel-section-heading">
+            <span>🛰️ SATELLITE INTELLIGENCE</span>
+            <h2>Earth Observation Feeds</h2>
+            <p>
+                Satellite observations provide a large-area view of environmental
+                conditions and can support flood, cloud, terrain and land-surface monitoring.
+            </p>
+        </div>
+
+        <div class="intel-card">
+            <div class="intel-card-header">
+                <div class="intel-card-title">
+                    <div class="intel-icon">🛰️</div>
+                    <div>
+                        <h3>Satellite Observation</h3>
+                        <div class="intel-card-subtitle">NASA GIBS near-real-time Earth observation imagery</div>
+                    </div>
+                </div>
+                <div class="feed-status" id="satelliteFeedStatus">FEED CONNECTED</div>
+            </div>
+
+            <div id="satelliteMap"></div>
+
+            <div class="satellite-map-info">
+                <span>🛰️ NASA GIBS • Near-real-time Earth observation</span>
+                <strong id="satelliteMapStatus" class="online">CONNECTED</strong>
+            </div>
+
+            <div class="intel-data-list" style="margin-top:10px;">
+                <div class="intel-data-row">
+                    <span class="intel-data-label">Observation Region</span>
+                    <span class="intel-data-value" id="observationRegionValue">--</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">Observation Type</span>
+                    <span class="intel-data-value">Earth Surface</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">Imagery Layer</span>
+                    <span class="intel-data-value">VIIRS True Color</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">Layer Control</span>
+                    <span class="intel-data-value">Satellite / Street / Thermal</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="intel-card" style="margin-top:14px;">
+            <div class="intel-card-header">
+                <div class="intel-card-title">
+                    <div class="intel-icon">🌍</div>
+                    <div>
+                        <h3>Satellite Signals</h3>
+                        <div class="intel-card-subtitle">Environmental indicators prepared for analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="intel-data-list">
+                <div class="intel-data-row">
+                    <span class="intel-data-label">🌊 Flood / Hydrology Signal</span>
+                    <span class="intel-data-value waiting" id="satWaterSignal">Waiting for selected location</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">⛰️ Terrain Context</span>
+                    <span class="intel-data-value waiting" id="satTerrainSignal">Using terrain service</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">☁️ Cloud Observation</span>
+                    <span class="intel-data-value" id="satCloudSignal">Live imagery</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">🌡️ Surface Temperature</span>
+                    <span class="intel-data-value waiting" id="satTempSignal">Surface analysis not directly derived</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">🌿 Vegetation / Land Signal</span>
+                    <span class="intel-data-value waiting" id="satVegetationSignal">Surface analysis not directly derived</span>
+                </div>
+                <div class="intel-data-row">
+                    <span class="intel-data-label">🔥 Thermal Anomaly</span>
+                    <span class="intel-data-value">Layer available</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#top" class="back-top">↑ Back to Intelligence top</a>
+    </section>
+
+    <!-- SENSORS -->
+    <section class="intel-section" id="sensors">
+        <div class="intel-section-heading">
+            <span>📡 SENSOR INTELLIGENCE</span>
+            <h2>Ground Monitoring Network</h2>
+            <p>
+                RakshaNet combines government telemetry where a regional feed is available with coordinate-based weather observations so the same intelligence interface can be used across India.
+            </p>
+        </div>
+
+        <div class="intel-card">
+            <div class="intel-card-header">
+                <div class="intel-card-title">
+                    <div class="intel-icon">📡</div>
+                    <div>
+                        <h3>Environmental Sensors</h3>
+                        <div class="intel-card-subtitle">Government telemetry network</div>
+                    </div>
+                </div>
+                <div class="feed-status" id="sensorFeedStatus" style="background:rgba(56,217,150,.10); color:#38d996;">
+                    CHECKING FEEDS
+                </div>
+            </div>
+
+            <div class="sensor-grid">
+                <div class="sensor-item">
+                    <div class="sensor-icon">🌧️</div>
+                    <div class="sensor-name">Rainfall</div>
+                    <div class="sensor-value" id="rainfallValue">--</div>
+                    <div class="sensor-state" id="rainfallState">● Checking feed</div>
+                    <div class="sensor-meta" id="rainfallMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">🌊</div>
+                    <div class="sensor-name">River Level</div>
+                    <div class="sensor-value" id="riverValue">--</div>
+                    <div class="sensor-state" id="riverState">● Checking feed</div>
+                    <div class="sensor-meta" id="riverMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">🌡️</div>
+                    <div class="sensor-name">Temperature</div>
+                    <div class="sensor-value" id="temperatureValue">--</div>
+                    <div class="sensor-state" id="temperatureState">● Checking feed</div>
+                    <div class="sensor-meta" id="temperatureMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">💦</div>
+                    <div class="sensor-name">Relative Humidity</div>
+                    <div class="sensor-value" id="humidityValue">--</div>
+                    <div class="sensor-state" id="humidityState">● Checking feed</div>
+                    <div class="sensor-meta" id="humidityMeta">--</div>
+                </div>
+                <div class="sensor-item">
+                    <div class="sensor-icon">💨</div>
+                    <div class="sensor-name">Wind Speed</div>
+                    <div class="sensor-value" id="windSpeedValue">--</div>
+                    <div class="sensor-state" id="windSpeedState">● Checking feed</div>
+                    <div class="sensor-meta" id="windSpeedMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">🧭</div>
+                    <div class="sensor-name">Wind Direction</div>
+                    <div class="sensor-value" id="windDirectionValue">--</div>
+                    <div class="sensor-state" id="windDirectionState">● Checking feed</div>
+                    <div class="sensor-meta" id="windDirectionMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">⏱️</div>
+                    <div class="sensor-name">Atmospheric Pressure</div>
+                    <div class="sensor-value" id="pressureValue">--</div>
+                    <div class="sensor-state" id="pressureState">● Checking feed</div>
+                    <div class="sensor-meta" id="pressureMeta">--</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">💧</div>
+                    <div class="sensor-name">Soil Moisture</div>
+                    <div class="sensor-value" id="soilValue">--</div>
+                    <div class="sensor-state" id="soilState">● Waiting for data</div>
+                    <div class="sensor-meta" id="soilMeta">Coordinate weather layer</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">⛰️</div>
+                    <div class="sensor-name">Ground Movement</div>
+                    <div class="sensor-value" id="groundValue">--</div>
+                    <div class="sensor-state" id="groundState">● No connected geotechnical feed</div>
+                    <div class="sensor-meta" id="groundMeta">Future geotechnical telemetry source</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">📍</div>
+                    <div class="sensor-name">Sensor Coverage</div>
+                    <div class="sensor-value" id="coverageValue">--</div>
+                    <div class="sensor-state" id="coverageState">● Waiting for data</div>
+                    <div class="sensor-meta" id="coverageMeta">Unique station counts are derived from each connected feed.</div>
+                </div>
+
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔄</div>
+                    <div class="sensor-name">Refresh Interval</div>
+                    <div class="sensor-value">5 min</div>
+                    <div class="sensor-state online">● Backend cache</div>
+                    <div class="sensor-meta">Browser refresh is intentionally limited to avoid hammering source services.</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#top" class="back-top">↑ Back to Intelligence top</a>
+    </section>
+
+    <!-- PIPELINE -->
+    <section class="intel-section" id="pipeline">
+        <div class="intel-section-heading">
+            <span>🧠 INTELLIGENCE PIPELINE</span>
+            <h2>From Raw Data to Disaster Intelligence</h2>
+            <p>
+                Multiple information sources can be combined before RakshaNet's
+                AI risk engine produces a preliminary early-warning signal.
+            </p>
+        </div>
+
+        <div class="intel-card">
+            <div class="pipeline">
+                <div class="pipeline-item">
+                    <div class="pipe-icon">🛰️</div>
+                    <strong>Satellite</strong>
+                    <small>Earth observation</small>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipe-icon">📡</div>
+                    <strong>Sensors</strong>
+                    <small>Telemetry measurements</small>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipe-icon">🌦️</div>
+                    <strong>Weather</strong>
+                    <small>Live conditions</small>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipe-icon">🧠</div>
+                    <strong>AI Engine</strong>
+                    <small>Risk analysis</small>
+                </div>
+                <div class="pipeline-item">
+                    <div class="pipe-icon">🚨</div>
+                    <strong>Alert</strong>
+                    <small>Early warning</small>
+                </div>
+            </div>
+        </div>
+
+        <a href="#top" class="back-top">↑ Back to Intelligence top</a>
+    </section>
+
+    <div class="intel-note">
+        <strong>ℹ️ Intelligence Layer:</strong>
+        RakshaNet currently receives satellite imagery through NASA GIBS and seven
+        Assam telemetry feeds through the backend: rainfall, river level,
+        temperature, relative humidity, wind speed, wind direction and
+        atmospheric pressure. These observations are displayed as source data;
+        disaster-risk interpretation is handled separately by the AI layer.
+    </div>
+</main>
+
+<footer>
+    <div class="footer-logo">🛡️ RakshaNet</div>
+    <p>Intelligent Disaster Management & Emergency Response</p>
+    <p class="copyright">© 2026 RakshaNet Prototype</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+    // =====================================================
+    // RAKSHANET UNIFIED INTELLIGENCE FRONTEND
+    // =====================================================
+
+    const REGION_PRESETS = {
+        assam: { name: 'Assam', lat: 26.2006, lon: 92.9376 },
+        sikkim: { name: 'Sikkim', lat: 27.5330, lon: 88.5122 },
+        arunachal: { name: 'Arunachal Pradesh', lat: 28.2180, lon: 94.7278 },
+        meghalaya: { name: 'Meghalaya', lat: 25.4670, lon: 91.3662 },
+        uttarakhand: { name: 'Uttarakhand', lat: 30.0668, lon: 79.0193 },
+        himachal: { name: 'Himachal Pradesh', lat: 31.1048, lon: 77.1734 },
+        maharashtra: { name: 'Maharashtra', lat: 19.7515, lon: 75.7139 },
+        kerala: { name: 'Kerala', lat: 10.8505, lon: 76.2711 },
+        odisha: { name: 'Odisha', lat: 20.2961, lon: 85.8245 },
+        india: { name: 'India', lat: 22.9734, lon: 78.6569 }
+    };
+
+    let currentLocation = REGION_PRESETS.assam;
+    let locationSource = 'focus';
+
+    const satelliteMap = L.map('satelliteMap', {
+        zoomControl: true
+    }).setView([currentLocation.lat, currentLocation.lon], 6);
+
+    const streetLayer = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }
+    );
+
+    const satelliteLayer = L.tileLayer.wms(
+        'https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi',
+        {
+            layers: 'VIIRS_NOAA21_CorrectedReflectance_TrueColor',
+            format: 'image/jpeg',
+            transparent: false,
+            attribution: 'NASA GIBS'
+        }
+    );
+
+    const thermalLayer = L.tileLayer.wms(
+        'https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi',
+        {
+            layers: 'MODIS_Combined_Thermal_Anomalies_Day',
+            format: 'image/png',
+            transparent: true,
+            opacity: 0.72,
+            attribution: 'NASA GIBS'
+        }
+    );
+
+    satelliteLayer.addTo(satelliteMap);
+
+    L.control.layers(
+        {
+            '🛰️ Satellite Imagery': satelliteLayer,
+            '🗺️ Street Map': streetLayer
+        },
+        {
+            '🔥 Thermal Anomalies': thermalLayer
+        },
+        {
+            collapsed: true,
+            position: 'topright'
+        }
+    ).addTo(satelliteMap);
+
+    document.getElementById('satelliteStatus').textContent = 'CONNECTED';
+    document.getElementById('satelliteStatus').className = 'online';
+    document.getElementById('satelliteMapStatus').textContent = 'CONNECTED';
+    document.getElementById('satelliteMapStatus').className = 'online';
+
+    setTimeout(() => satelliteMap.invalidateSize(), 300);
+
+    // -----------------------------------------------------
+    // Helpers
+    // -----------------------------------------------------
+
+    function setText(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    }
+
+    function esc(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[char]);
+    }
+
+    function formatNumber(value, decimals = 2) {
+        const number = Number(value);
+        return Number.isFinite(number) ? number.toFixed(decimals) : '--';
+    }
+
+    function parseObservationDate(value) {
+        if (!value) return null;
+        const raw = String(value).trim();
+
+        const dmy = raw.match(
+            /^(\d{1,2})-(\d{1,2})-(\d{4})(?:\s+(\d{1,2}):?(\d{2})(?::?(\d{2}))?)?$/
+        );
+
+        if (dmy) {
+            const date = new Date(
+                Number(dmy[3]),
+                Number(dmy[2]) - 1,
+                Number(dmy[1]),
+                Number(dmy[4] || 0),
+                Number(dmy[5] || 0),
+                Number(dmy[6] || 0)
+            );
+            if (!Number.isNaN(date.getTime())) return date;
+        }
+
+        const parsed = new Date(raw);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function formatObservationTime(value) {
+        const parsed = parseObservationDate(value);
+        if (!parsed) return String(value || '--').trim() || '--';
+        return parsed.toLocaleString([], {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function stationMeta(feed) {
+        const latest = feed?.latest;
+        if (!latest) return '--';
+        const pieces = [latest.station, latest.district].filter(Boolean);
+        return pieces.length ? pieces.join(' · ') : '--';
+    }
+
+    function setFeedCard(valueId, stateId, metaId, options) {
+        setText(valueId, options.value);
+        setText(stateId, options.stateText);
+        setText(metaId, options.metaText);
+        const stateElement = document.getElementById(stateId);
+        if (stateElement) {
+            stateElement.className = `sensor-state ${options.stateClass || 'waiting'}`;
+        }
+    }
+
+    function modelFeed(value, unit, meta) {
+        return {
+            value: `${formatNumber(value)} ${unit}`,
+            stateText: '● Coordinate weather model',
+            stateClass: 'online',
+            metaText: meta
+        };
+    }
+
+    function telemetryFeed(feed, value, unit) {
+        const latest = feed?.latest;
+        return {
+            value: `${formatNumber(value)} ${unit}`,
+            stateText: '● Government telemetry',
+            stateClass: 'online',
+            metaText: `${stationMeta(feed)} · ${latest?.timestamp ? formatObservationTime(latest.timestamp) : 'Observation time unavailable'}`
+        };
+    }
+
+    function applyRegionPreset(key) {
+        const preset = REGION_PRESETS[key];
+        if (!preset) return;
+        currentLocation = preset;
+        setText('intelLatitude', preset.lat);
+        setText('intelLongitude', preset.lon);
+        document.getElementById('intelLatitude').value = preset.lat;
+        document.getElementById('intelLongitude').value = preset.lon;
+        satelliteMap.setView([preset.lat, preset.lon], key === 'india' ? 5 : 6);
+        setTimeout(() => satelliteMap.invalidateSize(), 200);
+    }
+
+    function useCustomCoordinates() {
+        const lat = Number(document.getElementById('intelLatitude').value);
+        const lon = Number(document.getElementById('intelLongitude').value);
+        if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+            setText('intelLocationMeta', 'Enter valid latitude and longitude before analyzing.');
+            return null;
+        }
+        currentLocation = {
+            name: 'Custom location',
+            lat,
+            lon
+        };
+        satelliteMap.setView([lat, lon], 7);
+        setTimeout(() => satelliteMap.invalidateSize(), 200);
+        return currentLocation;
+    }
+
+    // -----------------------------------------------------
+    // Apply selection
+    // -----------------------------------------------------
+
+    const regionSelect = document.getElementById('intelRegionSelect');
+
+    regionSelect.addEventListener('change', () => {
+        const key = regionSelect.value;
+        locationSource = 'focus';
+        setText('intelLocationSource', 'Source: Monitoring Focus preset');
+        if (key === 'custom') return;
+        applyRegionPreset(key);
+    });
+
+    document.getElementById('applyIntelligenceLocation').addEventListener('click', () => {
+        if (locationSource === 'focus') {
+            if (regionSelect.value === 'custom') {
+                if (!useCustomCoordinates()) return;
+            } else {
+                applyRegionPreset(regionSelect.value);
+            }
+        } else {
+            const lat = Number(document.getElementById('intelLatitude').value);
+            const lon = Number(document.getElementById('intelLongitude').value);
+            if (!Number.isFinite(lat) || !Number.isFinite(lon)) { setText('intelLocationMeta', 'Select a search/current location before analyzing.'); return; }
+            currentLocation.lat = lat; currentLocation.lon = lon;
+        }
+        loadUnifiedIntelligence();
+    });
+
+    // Set default coordinates
+    document.getElementById('intelLatitude').value = currentLocation.lat;
+    document.getElementById('intelLongitude').value = currentLocation.lon;
+
+    // -----------------------------------------------------
+    // Unified API
+    // -----------------------------------------------------
+
+
+    const intelSearchCache = new Map();
+    let intelMarker = null;
+    let intelHazardLayer = L.layerGroup().addTo(satelliteMap);
+    let nerOverviewLayer = L.layerGroup().addTo(satelliteMap);
+
+    function setIntelLocation(location, label = null, options = {}) {
+        currentLocation = {
+            name: location.name || label || 'Selected location',
+            lat: Number(location.lat),
+            lon: Number(location.lon)
+        };
+        document.getElementById('intelLatitude').value = Number(currentLocation.lat).toFixed(6);
+        document.getElementById('intelLongitude').value = Number(currentLocation.lon).toFixed(6);
+        if (options.syncPreset === true) {
+            const select = document.getElementById('intelRegionSelect');
+            if (select) select.value = options.presetKey || 'custom';
+        }
+        if (options.source) locationSource = options.source;
+        setText('intelLocationSource', `Source: ${locationSource === 'current' ? 'Current device location' : locationSource === 'search' ? 'Search result' : 'Monitoring Focus preset'}`);
+        satelliteMap.setView([currentLocation.lat, currentLocation.lon], 8);
+        if (intelMarker) satelliteMap.removeLayer(intelMarker);
+        intelMarker = L.marker([currentLocation.lat, currentLocation.lon]).addTo(satelliteMap).bindPopup(`<strong>${esc(currentLocation.name)}</strong><br>${currentLocation.lat.toFixed(4)}, ${currentLocation.lon.toFixed(4)}`);
+    }
+
+    async function searchIntelLocation(query) {
+        const clean = String(query || '').trim();
+        if (!clean) throw new Error('Enter a city, district, state or village to search.');
+        if (intelSearchCache.has(clean.toLowerCase())) return intelSearchCache.get(clean.toLowerCase());
+        const url = new URL('https://nominatim.openstreetmap.org/search');
+        url.search = new URLSearchParams({ q: `${clean}, India`, format: 'jsonv2', limit: '5', addressdetails: '1' });
+        const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error(`Location search HTTP ${response.status}`);
+        const results = await response.json();
+        if (!Array.isArray(results) || !results.length) throw new Error('Location not found. Try another city, district or state.');
+        intelSearchCache.set(clean.toLowerCase(), results);
+        return results;
+    }
+
+    function renderIntelSearchChoices(results) {
+        const box = document.getElementById('intelLocationChoices');
+        if (!box) return;
+        box.innerHTML = results.map((item, index) => `<button type="button" class="rn-btn ghost" data-intel-result="${index}" style="margin:4px 6px 0 0;">${esc(item.display_name)}</button>`).join('');
+        box.querySelectorAll('[data-intel-result]').forEach(button => button.addEventListener('click', () => {
+            const item = results[Number(button.dataset.intelResult)];
+            locationSource = 'search';
+            setIntelLocation({ lat: Number(item.lat), lon: Number(item.lon), name: item.display_name }, null, { source: 'search' });
+            box.textContent = `Selected: ${item.display_name} · click Analyze Location`;
+        }));
+    }
+
+    document.getElementById('intelSearchLocationBtn')?.addEventListener('click', async () => {
+        try {
+            const results = await searchIntelLocation(document.getElementById('intelSearchLocation')?.value);
+            renderIntelSearchChoices(results);
+        } catch (error) {
+            document.getElementById('intelLocationChoices').textContent = error.message;
+        }
+    });
+
+    document.getElementById('intelSearchLocation')?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') document.getElementById('intelSearchLocationBtn')?.click();
+    });
+
+    document.getElementById('intelUseCurrentLocation')?.addEventListener('click', () => {
+        if (!navigator.geolocation) {
+            document.getElementById('intelLocationChoices').textContent = 'Browser geolocation is not available.';
+            return;
+        }
+        document.getElementById('intelLocationChoices').textContent = 'Getting your current location…';
+        navigator.geolocation.getCurrentPosition(position => {
+            locationSource = 'current';
+            setIntelLocation({ lat: position.coords.latitude, lon: position.coords.longitude, name: 'Current location' }, null, { source: 'current' });
+            document.getElementById('intelLocationChoices').textContent = `Current location selected: ${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)} · click Analyze Location`;
+        }, error => {
+            document.getElementById('intelLocationChoices').textContent = `Location permission/error: ${error.message}`;
+        }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+    });
+
+
+    async function renderIntelligenceHazardLayers(data) {
+        try {
+            intelHazardLayer.clearLayers();
+            const lat = Number(data.location?.latitude);
+            const lon = Number(data.location?.longitude);
+            const scores = data.fusion?.liveHazardScores || {};
+
+            const colorFor = score => {
+                const n = Number(score || 0);
+                if (n >= 80) return '#ef4444';
+                if (n >= 60) return '#f97316';
+                if (n >= 35) return '#f59e0b';
+                return '#22c55e';
+            };
+
+            if (Number.isFinite(lat) && Number.isFinite(lon)) {
+                L.circle([lat, lon], {
+                    radius: Math.max(2000, 3500 + Number(scores.flood || 0) * 50),
+                    color: colorFor(scores.flood), fillColor: colorFor(scores.flood), fillOpacity: 0.13, weight: 2
+                }).addTo(intelHazardLayer).bindPopup(`<strong>Flood / hydrological stress</strong><br>Index ${Math.round(Number(scores.flood || 0))}/100`);
+
+                L.circle([lat, lon], {
+                    radius: Math.max(1200, 1800 + Number(scores.landslide || 0) * 30),
+                    color: colorFor(scores.landslide), fillColor: colorFor(scores.landslide), fillOpacity: 0.10, weight: 2, dashArray: '6 6'
+                }).addTo(intelHazardLayer).bindPopup(`<strong>Landslide risk context</strong><br>ML ${data.fusion?.model?.percentage ?? '--'}% · context ${Math.round(Number(scores.landslide || 0))}/100`);
+            }
+
+            const nearby = data.context?.historical?.nearbyEvents || [];
+            nearby.slice(0, 25).forEach(event => {
+                const marker = L.circleMarker([Number(event.latitude), Number(event.longitude)], { radius: 5, color: '#b98cff', fillColor: '#b98cff', fillOpacity: .65, weight: 1 });
+                marker.bindPopup(`<strong>Historical landslide</strong><br>${esc(event.source || 'Inventory')} · ${event.eventYear || 'year unknown'}<br>${Number(event.distanceKm || 0).toFixed(1)} km from selected point`);
+                marker.addTo(intelHazardLayer);
+            });
+
+            try {
+                const response = await fetch(`/api/current-hazards?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`, { headers: { Accept: 'application/json' } });
+                if (response.ok) {
+                    const hazardData = await response.json();
+                    const event = hazardData?.hazards?.earthquake?.event;
+                    if (event && Number.isFinite(Number(event.latitude)) && Number.isFinite(Number(event.longitude))) {
+                        L.circleMarker([Number(event.latitude), Number(event.longitude)], { radius: 9, color: '#ff4d6d', fillColor: '#ff4d6d', fillOpacity: .75, weight: 2 })
+                            .addTo(intelHazardLayer)
+                            .bindPopup(`<strong>Recent earthquake activity</strong><br>M${Number(event.magnitude).toFixed(1)} · ${esc(event.place || '')}<br>${Number(hazardData?.hazards?.earthquake?.detail || '').toString().replace(/^[^·]*·\s*/, '')}`);
+                    }
+                }
+            } catch (_) {}
+        } catch (error) {
+            console.warn('Intelligence hazard map update failed:', error.message);
+        }
+    }
+
+
+    async function loadNerHazardOverview() {
+        const box = document.getElementById('nerLiveOverview');
+        if (!box) return;
+        try {
+            const response = await fetch('/api/ner-hazard-overview', { cache: 'no-store', headers: { Accept: 'application/json' } });
+            const data = await response.json();
+            if (!response.ok || !data.ok) throw new Error(data.error || `NER overview HTTP ${response.status}`);
+            nerOverviewLayer.clearLayers();
+            const colorFor = score => {
+                const n = Number(score || 0);
+                if (n >= 80) return '#ef4444';
+                if (n >= 60) return '#f97316';
+                if (n >= 35) return '#f59e0b';
+                return '#22c55e';
+            };
+            const rows = [];
+            (data.points || []).forEach(point => {
+                const risk = Math.max(...Object.values(point.scores || {}).map(Number).filter(Number.isFinite), 0);
+                const official = Array.isArray(point.officialAlerts) && point.officialAlerts.length;
+                const earthquakes = Array.isArray(point.earthquakes) ? point.earthquakes : [];
+                const earthquake = earthquakes[0];
+                const circle = L.circle([point.latitude, point.longitude], {
+                    radius: Math.max(6500, 12000 + risk * 150),
+                    color: colorFor(risk), fillColor: colorFor(risk), fillOpacity: .12, weight: 2
+                }).addTo(nerOverviewLayer);
+                circle.bindPopup(`<strong>${esc(point.name)}</strong><br>Multi-hazard index ${Math.round(risk)}/100<br>Flood ${Math.round(point.scores?.flood || 0)} · Landslide ${Math.round(point.scores?.landslide || 0)} · Heavy rain ${Math.round(point.scores?.heavy_rain || 0)}${official ? `<br>📢 Official alert matched` : ''}${earthquake ? `<br>🌐 Recent earthquake M${Number(earthquake.magnitude).toFixed(1)} · ${Number(earthquake.distanceKm).toFixed(0)} km` : ''}`);
+                if (earthquake && Number.isFinite(Number(earthquake.latitude))) {
+                    L.circleMarker([earthquake.latitude, earthquake.longitude], { radius: 5, color: '#ef4444', fillColor: '#ef4444', fillOpacity: .7, weight: 1 }).addTo(nerOverviewLayer).bindPopup(`<strong>USGS recent earthquake</strong><br>M${Number(earthquake.magnitude).toFixed(1)} · ${esc(earthquake.place || '')}`);
+                }
+                const bands = risk >= 80 ? 'EXTREME' : risk >= 60 ? 'HIGH' : risk >= 35 ? 'WATCH' : 'LOW';
+                rows.push(`<div class="intel-data-row"><span class="intel-data-label"><strong>${esc(point.name)}</strong><br><small>${official ? '📢 Official alert matched' : 'Live derived indices'}${earthquake ? ` · 🌐 M${Number(earthquake.magnitude).toFixed(1)} nearby` : ''}</small></span><span class="intel-data-value">${bands} · ${Math.round(risk)}/100<br><small>Flood ${Math.round(point.scores?.flood || 0)} · Rain ${Math.round(point.scores?.heavy_rain || 0)} · Landslide ${Math.round(point.scores?.landslide || 0)} · Heat ${Math.round(point.scores?.extreme_heat || 0)}</small></span></div>`);
+            });
+            box.innerHTML = rows.join('') || '<div class="intel-muted">No NER points returned.</div>';
+            setText('nerLiveOverviewMeta', `Checked ${formatObservationTime(data.checkedAt)} · ${data.points?.length || 0} NER states monitored · ${esc(data.source || 'RakshaNet NER live hazard overview')}`);
+        } catch (error) {
+            box.innerHTML = `<div class="intel-muted">Live NER overview unavailable: ${esc(error.message)}</div>`;
+            nerOverviewLayer.clearLayers();
+        }
+    }
+
+    async function loadUnifiedIntelligence() {
+        try {
+            const region = locationSource === 'focus'
+                ? (regionSelect.value === 'custom' ? 'custom' : regionSelect.value)
+                : currentLocation.name;
+
+            const url = new URL('/api/intelligence', window.location.origin);
+            url.searchParams.set('lat', currentLocation.lat);
+            url.searchParams.set('lon', currentLocation.lon);
+            url.searchParams.set('region', region);
+
+            setText('fusionStatus', 'PROCESSING');
+            setText('sensorFeedStatus', 'CHECKING INTELLIGENCE');
+            setText('intelLocationMeta', 'Building unified satellite + weather + telemetry intelligence…');
+
+            const response = await fetch(url.toString(), { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error(`Intelligence API HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (!data.ok) throw new Error(data.error || 'Unified intelligence unavailable.');
+
+            const weather = data.currentWeather || {};
+            const telemetry = data.governmentTelemetry?.feeds || [];
+            const feedMap = Object.fromEntries(telemetry.map(item => [item.key, item]));
+
+            const useGovernment = Boolean(data.sources?.governmentTelemetry?.connected);
+
+            // -------------------------------------------------
+            // Status cards
+            // -------------------------------------------------
+
+            setText('sensorStatus', useGovernment ? 'CONNECTED' : 'MODEL READY');
+            document.getElementById('sensorStatus').className = useGovernment ? 'online' : 'waiting';
+
+            const connectedFeedCount = telemetry.filter(item => item.connected).length;
+            setText('sensorFeedStatus', useGovernment
+                ? `${connectedFeedCount} TELEMETRY FEEDS`
+                : 'COORDINATE WEATHER MODEL');
+
+            document.getElementById('sensorFeedStatus').style.background =
+                useGovernment ? 'rgba(56,217,150,.10)' : 'rgba(255,200,87,.10)';
+            document.getElementById('sensorFeedStatus').style.color =
+                useGovernment ? '#38d996' : '#ffc857';
+
+            setText('lastUpdate', formatObservationTime(data.checkedAt));
+            setText('observationRegionValue', data.location?.region || 'Custom location');
+            setText('intelLocationMeta', `${data.location?.displayName || data.location?.region || 'Location'} · ${Number(data.location?.latitude).toFixed(4)}, ${Number(data.location?.longitude).toFixed(4)} · live unified intelligence`);
+            setIntelLocation({ lat: Number(data.location?.latitude), lon: Number(data.location?.longitude), name: data.location?.displayName || data.location?.region || 'Selected location' }, null, { source: locationSource });
+            await renderIntelligenceHazardLayers(data);
+
+            // -------------------------------------------------
+            // Sensor cards: use government telemetry for Assam,
+            // coordinate weather model elsewhere.
+            // -------------------------------------------------
+
+            const rainFeed = feedMap.rainfall;
+            const riverFeed = feedMap.riverLevel;
+            const tempFeed = feedMap.temperature;
+            const humidityFeed = feedMap.humidity;
+            const windSpeedFeed = feedMap.windSpeed;
+            const windDirectionFeed = feedMap.windDirection;
+            const pressureFeed = feedMap.pressure;
+
+            if (useGovernment && rainFeed?.latest) {
+                setFeedCard('rainfallValue', 'rainfallState', 'rainfallMeta',
+                    telemetryFeed(rainFeed, rainFeed.latest.rainfall, 'mm'));
+            } else {
+                setFeedCard('rainfallValue', 'rainfallState', 'rainfallMeta',
+                    modelFeed(weather.precipitation, 'mm', `${formatObservationTime(weather.observedAt)} · Open-Meteo`));
+            }
+
+            if (useGovernment && riverFeed?.latest) {
+                setFeedCard('riverValue', 'riverState', 'riverMeta',
+                    telemetryFeed(riverFeed, riverFeed.latest.waterLevel, 'm'));
+            } else {
+                setFeedCard('riverValue', 'riverState', 'riverMeta', {
+                    value: '--',
+                    stateText: '● No coordinate river telemetry',
+                    stateClass: 'waiting',
+                    metaText: 'Connect a regional river station feed for local water level.'
+                });
+            }
+
+            if (useGovernment && tempFeed?.latest) {
+                setFeedCard('temperatureValue', 'temperatureState', 'temperatureMeta',
+                    telemetryFeed(tempFeed, tempFeed.latest.temperature, '°C'));
+            } else {
+                setFeedCard('temperatureValue', 'temperatureState', 'temperatureMeta',
+                    modelFeed(weather.temperature, '°C', `${formatObservationTime(weather.observedAt)} · Open-Meteo`));
+            }
+
+            if (useGovernment && humidityFeed?.latest) {
+                setFeedCard('humidityValue', 'humidityState', 'humidityMeta',
+                    telemetryFeed(humidityFeed, humidityFeed.latest.humidity, '%'));
+            } else {
+                setFeedCard('humidityValue', 'humidityState', 'humidityMeta',
+                    modelFeed(weather.humidity, '%', `${formatObservationTime(weather.observedAt)} · Open-Meteo`));
+            }
+
+            if (useGovernment && windSpeedFeed?.latest) {
+                setFeedCard('windSpeedValue', 'windSpeedState', 'windSpeedMeta',
+                    telemetryFeed(windSpeedFeed, windSpeedFeed.latest.windSpeed, 'km/h'));
+            } else {
+                setFeedCard('windSpeedValue', 'windSpeedState', 'windSpeedMeta',
+                    modelFeed(weather.windSpeed, 'km/h', `${formatObservationTime(weather.observedAt)} · Open-Meteo`));
+            }
+
+            if (useGovernment && windDirectionFeed?.latest) {
+                const degrees = Number(windDirectionFeed.latest.windDirectionDegrees);
+                setFeedCard('windDirectionValue', 'windDirectionState', 'windDirectionMeta', {
+                    value: Number.isFinite(degrees)
+                        ? `${degrees.toFixed(0)}°`
+                        : String(windDirectionFeed.latest.windDirection || '--'),
+                    stateText: '● Government telemetry',
+                    stateClass: 'online',
+                    metaText: `${stationMeta(windDirectionFeed)} · ${windDirectionFeed.latest.timestamp ? formatObservationTime(windDirectionFeed.latest.timestamp) : 'Observation time unavailable'}`
+                });
+            } else {
+                setFeedCard('windDirectionValue', 'windDirectionState', 'windDirectionMeta', {
+                    value: Number.isFinite(Number(weather.windDirection))
+                        ? `${Number(weather.windDirection).toFixed(0)}°`
+                        : '--',
+                    stateText: '● Coordinate weather model',
+                    stateClass: 'online',
+                    metaText: `${formatObservationTime(weather.observedAt)} · Open-Meteo`
+                });
+            }
+
+            if (useGovernment && pressureFeed?.latest) {
+                setFeedCard('pressureValue', 'pressureState', 'pressureMeta',
+                    telemetryFeed(pressureFeed, pressureFeed.latest.pressure, 'hPa'));
+            } else {
+                setFeedCard('pressureValue', 'pressureState', 'pressureMeta',
+                    modelFeed(weather.pressure, 'hPa', `${formatObservationTime(weather.observedAt)} · Open-Meteo`));
+            }
+
+            // Soil moisture is available from coordinate weather when present.
+            if (Number.isFinite(Number(weather.soilMoisture))) {
+                setFeedCard('soilValue', 'soilState', 'soilMeta', {
+                    value: `${Number(weather.soilMoisture).toFixed(3)} m³/m³`,
+                    stateText: '● Coordinate weather model',
+                    stateClass: 'online',
+                    metaText: `${formatObservationTime(weather.observedAt)} · Open-Meteo soil moisture` 
+                });
+            } else {
+                setFeedCard('soilValue', 'soilState', 'soilMeta', {
+                    value: '--',
+                    stateText: '● Soil moisture unavailable',
+                    stateClass: 'waiting',
+                    metaText: 'No soil-moisture value returned for this request.'
+                });
+            }
+
+            setText('groundValue', '--');
+            setText('groundState', '● No connected geotechnical feed');
+            document.getElementById('groundState').className = 'sensor-state waiting';
+            setText('groundMeta', 'Future geotechnical sensor source');
+
+            // -------------------------------------------------
+            // Coverage
+            // -------------------------------------------------
+
+            const stations = new Set();
+            telemetry.forEach(item => {
+                if (item.connected && item.latest?.station) {
+                    stations.add(String(item.latest.station).trim());
+                }
+            });
+
+            if (useGovernment) {
+                setText('coverageValue', `${stations.size} latest stations`);
+                setText('coverageState', `● ${connectedFeedCount}/7 telemetry feeds connected`);
+                document.getElementById('coverageState').className = 'sensor-state online';
+                setText('coverageMeta', `${data.governmentTelemetry?.feedCount || connectedFeedCount} feed types · station names deduplicated for latest observations`);
+            } else {
+                setText('coverageValue', 'Coordinate model');
+                setText('coverageState', '● Global weather coverage');
+                document.getElementById('coverageState').className = 'sensor-state online';
+                setText('coverageMeta', 'No region-specific government telemetry selected; weather model remains available by coordinate.');
+            }
+
+            // -------------------------------------------------
+            // Live hazard summary
+            // -------------------------------------------------
+            const liveScores = data.fusion?.liveHazardScores || data.context?.liveHazardScores || {};
+            setText('liveFloodScore', `${Math.round(Number(liveScores.flood || 0))}/100`);
+            setText('liveRainScore', `${Math.round(Number(liveScores.heavy_rain || 0))}/100`);
+            setText('liveLandslideScore', `${data.fusion?.model?.percentage ?? '--'}% ML · context ${Math.round(Number(liveScores.landslide || data.context?.compositeRisk?.score || 0))}/100`);
+            setText('liveStormScore', `${Math.round(Number(liveScores.thunderstorm || 0))}/100`);
+            setText('liveHeatScore', `${Math.round(Number(liveScores.extreme_heat || 0))}/100`);
+            setText('liveCycloneScore', data.cyclone?.available ? `${Math.round(Number(liveScores.cyclone || 0))}/100${data.cyclone?.active ? ` · ${data.cyclone.name || 'track active'}` : ' · no nearby active track'}` : 'IMD cyclone feed unavailable');
+            const official = data.officialWarnings || data.fusion?.officialWarnings || {};
+            const sachet = data.context?.sachetAlerts || {};
+            const officialMatches = Object.values(sachet.byHazard || {});
+            setText('liveOfficialWarning', officialMatches.length ? `${officialMatches.length} SACHET alert(s) matched` : (official.matched ? 'IMD MATCHED' : (official.available ? 'No matched official warning' : 'Official alert feed unavailable')));
+            setText('liveHazardNote', `${officialMatches.length ? `NDMA/SACHET: ${officialMatches.slice(0,2).map(alert => alert.title).join(' · ')}` : (official.matched && official.warning?.message ? `Official IMD warning: ${official.warning.message}` : `Official-warning status: ${official.available ? 'connected, no matched official warning' : 'unavailable / access not configured'}`)}. Flood index uses ${data.context?.hydrology?.available ? 'GloFAS river-discharge guidance + weather' : 'weather only'}. Official alerts are shown separately from derived indices. ${data.context?.hydrology?.note || ''}`);
+            setText('satWaterSignal', data.context?.hydrology?.available ? `Hydrology index ${Math.round(Number(liveScores.flood || 0))}/100` : 'Hydrology feed unavailable');
+            setText('satTerrainSignal', data.context?.terrain?.available ? `${data.context.terrain.elevationMeters}m · slope ${data.context.terrain.slopePercent}%` : 'Terrain unavailable');
+            const forecastBox = document.getElementById('intelForecastGrid');
+            if (forecastBox) {
+                const forecast = Array.isArray(data.context?.forecast) ? data.context.forecast : Array.isArray(data.fusion?.forecast) ? data.fusion.forecast : [];
+                forecastBox.innerHTML = forecast.length ? forecast.map(day => `
+                    <div class="intel-data-row" style="align-items:flex-start;">
+                        <span class="intel-data-label"><strong>${esc(new Date(day.date).toLocaleDateString([], { weekday:'short', month:'short', day:'numeric' }))}</strong><br><small>🌧️ ${Number(day.precipitationMm || 0).toFixed(1)} mm · ${Number(day.precipitationProbability || 0)}%</small></span>
+                        <span class="intel-data-value">Flood ${day.flood}/100<br>Rain ${day.heavyRain}/100<br>Heat ${day.extremeHeat}/100</span>
+                    </div>`).join('') : '<div class="rn-muted">Forecast data unavailable.</div>';
+            }
+
+            setText('satCloudSignal', Number.isFinite(Number(data.currentWeather?.cloudCover)) ? `${Number(data.currentWeather.cloudCover).toFixed(0)}% cloud cover` : 'Live imagery');
+
+            // -------------------------------------------------
+            // Fusion summary
+            // -------------------------------------------------
+
+            const inputs = data.fusion?.inputs || {};
+            const inputNames = Object.entries(inputs)
+                .filter(([, enabled]) => enabled)
+                .map(([name]) => name);
+
+            setText('fusionLocation', data.location?.region || 'Custom');
+            setText('fusionCoordinates', `${Number(data.location?.latitude).toFixed(3)}, ${Number(data.location?.longitude).toFixed(3)}`);
+            const totalInputs = Object.keys(inputs).length || 1;
+            setText('fusionInputs', `${inputNames.length} / ${totalInputs} sources`);
+            setText('fusionStage', data.fusion?.stage || 'NORMALIZED');
+            setText('fusionFeatures', `${data.fusion?.aiFeatureCount || 0}/${data.fusion?.aiFeatureTotal || 0} ready`);
+            setText('fusionModelStatus', data.fusion?.aiFeaturesReady ? 'Feature set complete' : 'Feature set incomplete');
+
+            const model = data.fusion?.model;
+            if (model?.available) {
+                const composite = data.fusion?.compositeRisk || {};
+                const displayedScore = Number.isFinite(Number(composite.score)) ? Number(composite.score) : Number(model.percentage);
+                const displayedBand = composite.band || model.risk;
+                setText('fusionRisk', `${displayedBand} · ${displayedScore}%`);
+                setText('fusionPriority', `${model.priority} · ML ${model.percentage}% · composite context index`);
+                document.getElementById('fusionRisk').className = 'fusion-value online';
+            } else {
+                setText('fusionRisk', 'NOT RUN');
+                setText('fusionPriority', 'Model unavailable for this snapshot');
+                document.getElementById('fusionRisk').className = 'fusion-value waiting';
+            }
+
+            const confidence = Number(data.context?.dataConfidenceScore);
+            const terrain = data.context?.terrain || {};
+            const historical = data.context?.historical || {};
+            const topSignals = data.context?.explanations?.modelSignals || [];
+            const signalText = topSignals.slice(0, 3).map(signal => {
+                const label = String(signal.feature || '').replaceAll('_', ' ');
+                return `${label}: ${signal.state.replaceAll('_', ' ').toLowerCase()}`;
+            }).join(' · ');
+
+            setText('fusionNote',
+                `Weather source: ${data.sources?.weather?.provider || 'Unavailable'} · ` +
+                `Government telemetry: ${data.sources?.governmentTelemetry?.connected ? 'available for selected Assam focus' : 'not selected for this location'} · ` +
+                `Terrain: ${terrain.available ? `${terrain.elevationMeters}m elevation, ${terrain.slopePercent}% proxy slope` : 'unavailable'} · ` +
+                `Historical events within ${historical.radiusKm || 25} km: ${historical.eventsNearby ?? '--'} · ` +
+                `Data confidence: ${Number.isFinite(confidence) ? `${confidence}%` : 'n/a'} · ` +
+                `Satellite layer: ${data.sources?.satellite?.provider || 'Unavailable'}. ` +
+                `${signalText ? `Top model signals: ${signalText}. ` : ''}` +
+                `Composite score: ${Number.isFinite(Number(data.fusion?.compositeRisk?.score)) ? `${data.fusion.compositeRisk.score}/100` : 'n/a'} · ML output is preliminary and not an official warning.`
+            );
+
+            // Trigger a throttled in-app/browser notification for high model signals.
+            if (model?.available && Number(model.percentage) >= 60) {
+                try {
+                    const key = `${data.location?.latitude.toFixed?.(2)}:${data.location?.longitude.toFixed?.(2)}:${model.risk}:${Math.round(Number(model.percentage) / 10)}`;
+                    const lastKey = localStorage.getItem('rakshanet_last_alert_key');
+                    const lastAt = Number(localStorage.getItem('rakshanet_last_alert_at') || 0);
+                    if (key !== lastKey || Date.now() - lastAt > 30 * 60 * 1000) {
+                        const evaluation = await fetch('/api/alerts/evaluate', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                percentage: model.percentage,
+                                risk: model.risk,
+                                hazard: 'landslide',
+                                location: data.location?.region || 'Selected area',
+                                language: localStorage.getItem('rakshanet_language') || 'en'
+                            })
+                        });
+                        if (evaluation.ok) {
+                            const alertData = await evaluation.json();
+                            localStorage.setItem('rakshanet_last_alert_key', key);
+                            localStorage.setItem('rakshanet_last_alert_at', String(Date.now()));
+                            if ('Notification' in window && Notification.permission === 'granted') {
+                                new Notification('RakshaNet Early Warning', {
+                                    body: `${alertData.alert?.message || 'High landslide risk signal detected.'} ${alertData.alert?.officialWarning ? 'Official-source alert matched.' : 'Derived RakshaNet signal.'}`
+                                });
+                            }
+                        }
+                    }
+                } catch (alertError) {
+                    console.warn('Alert evaluation unavailable:', alertError.message);
+                }
+            }
+
+            setText('fusionStatus', model?.available ? 'AI READY' : 'NORMALIZED');
+            document.getElementById('fusionStatus').className = model?.available ? 'feed-status online' : 'feed-status';
+
+            console.log('✅ Unified RakshaNet intelligence:', data);
+
+        } catch (error) {
+            console.error('Unified intelligence loading error:', error);
+            setText('fusionStatus', 'ERROR');
+            setText('sensorFeedStatus', 'UNAVAILABLE');
+            setText('intelLocationMeta', `Intelligence API error: ${error.message}`);
+            document.getElementById('fusionStatus').style.background = 'rgba(255,89,100,.10)';
+            document.getElementById('fusionStatus').style.color = '#ff5964';
+        }
+    }
+
+    // Initial load
+    loadNerHazardOverview();
+    loadUnifiedIntelligence();
+
+    // Refresh every 5 minutes.
+    setInterval(() => { loadUnifiedIntelligence(); loadNerHazardOverview(); }, 5 * 60 * 1000);
+
+</script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

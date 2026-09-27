@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshaNet | Live GIS & Risk Dashboard</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+
+
+
+
+<style>
+    .rn-location-search-wrap {
+        position: relative;
+        width: 100%;
+    }
+
+    .rn-location-input-row {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+    }
+
+    .rn-location-input-row .rn-input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .rn-location-results {
+        position: absolute;
+        top: calc(100% + 7px);
+        left: 0;
+        right: 0;
+        z-index: 2500;
+
+        display: none;
+
+        max-height: 250px;
+        overflow-y: auto;
+
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 12px;
+
+        background: rgba(10, 18, 32, .98);
+
+        box-shadow:
+            0 18px 40px rgba(0,0,0,.35);
+
+        backdrop-filter: blur(12px);
+    }
+
+    .rn-location-results::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    .rn-location-results::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgba(255,255,255,.22);
+    }
+
+    .rn-location-result {
+        display: block;
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 0;
+        border-bottom: 1px solid rgba(255,255,255,.07);
+
+        background: transparent;
+
+        text-align: left;
+
+        cursor: pointer;
+    }
+
+    .rn-location-result:last-child {
+        border-bottom: 0;
+    }
+
+    .rn-location-result:hover {
+        background: rgba(255,255,255,.07);
+    }
+
+    .rn-location-result-title {
+        display: block;
+
+        font-size: .95rem;
+        font-weight: 700;
+    }
+
+    .rn-location-result-address {
+        display: block;
+
+        margin-top: 4px;
+
+        font-size: .76rem;
+
+        line-height: 1.35;
+
+        opacity: .62;
+    }
+
+    @media (max-width: 600px) {
+        .rn-location-input-row {
+            flex-direction: column;
+        }
+
+        .rn-location-results {
+            max-height: 230px;
+        }
+    }
+</style>
+
+
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+</head>
+<body>
+
+
+
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="login.html" class="login-btn rn-auth-btn">
+    🔐 Register / Login
+</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+
+
+
+<main>
+<section class="emergency-page">
+<div class="emergency-header">
+    <span class="emergency-label">🗺️ GIS INTELLIGENCE</span>
+    <h1>Live Disaster Intelligence Map</h1>
+    <p>Understand your area, find nearby help, and reach safety faster.</p>
+</div>
+
+
+<!-- =====================================================
+     LOCATION
+===================================================== -->
+<div class="rn-card">
+
+    <h3>📍 Choose Location</h3>
+
+    <div class="rn-location-input-row">
+
+        <button
+            id="locateUser"
+            class="rn-btn primary"
+            type="button"
+        >
+            📍 My Location
+        </button>
+
+        <input
+            id="mapLocationSearch"
+            class="rn-input"
+            type="text"
+            placeholder="Search city, district, village or locality..."
+            autocomplete="off"
+        >
+
+        <button
+            id="mapLocationSearchBtn"
+            class="rn-btn primary"
+            type="button"
+        >
+            🔎 Search
+        </button>
+
+    </div>
+
+    <div
+        id="mapLocationSuggestions"
+        class="rn-location-results"
+    ></div>
+
+    <div
+        id="mapSearchStatus"
+        class="rn-small"
+        style="margin-top:8px;"
+    >
+        Choose your current location or search for an area.
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================================================
+     MAIN MAP + LIVE STATUS
+===================================================== -->
+<div class="rn-map-layout">
+
+    <!-- MAIN MAP -->
+    <div class="rn-card rn-map-shell">
+
+        <div class="rn-map-topbar">
+
+            <div class="rn-map-tools">
+
+                <button
+                    id="showWeather"
+                    class="rn-btn blue"
+                    type="button"
+                >
+                    🌦️ Weather
+                </button>
+
+                <button
+                    id="showRiskZones"
+                    class="rn-btn"
+                    type="button"
+                >
+                    🔥 Risk
+                </button>
+
+                <button
+                    id="showDisasters"
+                    class="rn-btn"
+                    type="button"
+                >
+                    🚨 Reports
+                </button>
+
+            </div>
+
+            <div class="rn-chip">
+                Source: IMD + Live Weather + OpenStreetMap
+            </div>
+
+        </div>
+
+        <div id="disasterMap"></div>
+
+        <div class="rn-footer-note">
+            Official warnings take precedence over prototype risk estimates.
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE: LIVE DATA + SELECTED AREA -->
+<div class="rn-map-side">
+
+
+
+    <!-- LIVE DATA STATUS -->
+    <div class="rn-card rn-live-status-card">
+
+        <h3>📡 Live Data Status</h3>
+
+        <div class="rn-map-status-list">
+
+            <div class="rn-status-row">
+                <span>Weather</span>
+                <strong id="weatherStatus">Connecting…</strong>
+            </div>
+
+            <div class="rn-status-row">
+                <span>IMD warnings</span>
+                <strong id="imdStatus">Checking…</strong>
+            </div>
+
+            <div class="rn-status-row">
+                <span>OSM resources</span>
+                <strong id="osmStatus">Ready</strong>
+            </div>
+
+            <div class="rn-status-row">
+                <span>GPS</span>
+                <strong id="gpsStatus">Not detected</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SELECTED AREA -->
+    <div class="rn-card">
+
+        <h3>📍 Selected Area</h3>
+
+        <div
+            id="mapWeatherSummary"
+            class="rn-muted"
+        >
+            Search for a location or click My Location.
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================================================
+     NEARBY HELP & SAFETY
+===================================================== -->
+<div class="rn-card">
+
+    <h3>🆘 Find Help & Safety</h3>
+
+    <div class="rn-map-tools">
+
+        <button
+            id="showHospitals"
+            class="rn-btn"
+            type="button"
+        >
+            🏥 Hospitals
+        </button>
+
+        <button
+            id="showShelters"
+            class="rn-btn"
+            type="button"
+        >
+            🏠 Shelters
+        </button>
+
+        <button
+            id="showResources"
+            class="rn-btn"
+            type="button"
+        >
+            🚒 Rescue / Relief
+        </button>
+
+    </div>
+
+    <div
+        class="rn-muted"
+        style="margin-top:10px;"
+    >
+        Find important emergency resources near the selected area.
+    </div>
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+     EVACUATION ROUTE
+===================================================== -->
+<div
+    class="rn-card"
+    id="route"
+>
+
+    <h3>🛣️ Evacuation Route</h3>
+
+    <div
+        id="routeChooserPanel"
+        style="display:none;"
+    >
+
+        <div
+            id="routeCategoryTitle"
+            style="margin-bottom:10px;"
+        >
+            <strong>Choose your destination</strong>
+        </div>
+
+        <label class="rn-label">
+            Destination
+        </label>
+
+        <select
+            id="destinationSelect"
+            class="rn-select"
+        >
+            <option value="">
+                Choose a destination
+            </option>
+        </select>
+
+        <div
+            style="
+                margin:12px 0;
+                text-align:center;
+                color:var(--muted,#94a3b8);
+            "
+        >
+            — OR —
+        </div>
+
+        <button
+            id="nearestFacilityButton"
+            class="rn-btn blue"
+            type="button"
+        >
+            📍 Find Nearest
+        </button>
+
+        <div
+            class="rn-actions"
+            style="margin-top:10px;"
+        >
+
+            <button
+                id="safeRouteButton"
+                class="rn-btn primary"
+                type="button"
+            >
+                🛣️ Calculate Route
+            </button>
+
+            <button
+                id="clearRouteButton"
+                class="rn-btn ghost"
+                type="button"
+            >
+                Clear
+            </button>
+
+            <button
+                id="seeOnMapButton"
+                class="rn-btn blue"
+                type="button"
+            >
+                🗺️ See on Map
+            </button>
+
+        </div>
+
+        <div
+            id="routeStatus"
+            class="rn-muted"
+            style="margin-top:10px;"
+        >
+            Choose a destination or use the nearest option.
+        </div>
+
+    </div>
+
+
+    <div
+        id="routeEmptyState"
+        class="rn-muted"
+    >
+        First select a location, then choose
+        <strong>Hospitals</strong>,
+        <strong>Shelters</strong>, or
+        <strong>Rescue / Relief</strong>
+        from Find Help & Safety.
+    </div>
+
+</div>
+
+
+
+
+<!-- =====================================================
+     LEGEND
+===================================================== -->
+<div class="rn-card">
+
+    <h3>🧭 Map Legend</h3>
+
+    <div class="rn-result-list">
+
+        <div>🟢 Low Risk</div>
+        <div>🟡 Watch</div>
+        <div>🟠 High</div>
+        <div>🔴 Extreme</div>
+        <div>📍 Your Location</div>
+        <div>🚨 Reported Incident</div>
+
+    </div>
+
+</div>
+</section>
+</main>
+<footer><div class="footer-logo">🛡️ RakshaNet</div><p>Intelligent Disaster Management & Emergency Response</p></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script src="../js/location.js"></script><script src="../js/script.js"></script>
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

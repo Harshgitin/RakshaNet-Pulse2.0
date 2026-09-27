@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="favicon.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RakshaNet - live disaster intelligence, emergency reporting and AI-assisted risk monitoring.">
+<title>RakshaNet | Disaster Intelligence & Response</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/navigation.css">
+</head>
+<body>
+
+
+
+
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="pages/map.html" data-nav="map">Live Map</a>
+        <a href="pages/dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="pages/intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pages/pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">More <span class="nav-chevron">⌄</span></button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="pages/help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="pages/help.html#community" data-nav="community">👥 Community</a>
+                <a href="#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="pages/login.html" class="login-btn rn-auth-btn">
+    🔐 Register / Login</a>
+        <a href="pages/emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+
+
+
+
+<main>
+<section class="hero">
+    <div class="hero-content">
+        <div class="status-badge"><span class="status-dot"></span> Disaster Intelligence Network</div>
+        <h1>Predict. <span>Warn.</span> Respond.</h1>
+        <p>RakshaNet combines live weather data, GIS intelligence, emergency reporting and AI-assisted risk analysis to help communities and responders act faster.</p>
+        <div class="hero-buttons">
+            <button class="primary-btn" onclick="window.location.href='pages/emergency.html'">🚨 Report Emergency</button>
+            <button class="secondary-btn" onclick="window.location.href='pages/map.html'">🗺️ Open Live Map</button>
+            <button class="secondary-btn" onclick="window.location.href='pages/help.html'">🆘 Get Emergency Help</button>
+            <button class="secondary-btn" onclick="window.location.href='pages/pulse.html'">⚡ Advance Weather Pulse</button>
+            <button class="secondary-btn" onclick="window.location.href='#services'">🧩 Explore Services</button>
+        </div>
+        <div class="hero-stats">
+            <div class="stat"><strong>24/7</strong><span>Monitoring</span></div>
+            <div class="stat"><strong>LIVE</strong><span>Weather Data</span></div>
+            <div class="stat"><strong>GIS</strong><span>Risk Dashboard</span></div>
+        </div>
+        <div class="rn-live-strip">
+            <span class="rn-chip"><span class="rn-dot"></span> Live weather engine</span>
+            <span class="rn-chip">🇮🇳 IMD source integration</span>
+            <span class="rn-chip">🗺️ OpenStreetMap GIS</span>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="radar-circle"><div class="radar-center">🛡️</div><div class="radar-ring ring-1"></div><div class="radar-ring ring-2"></div><div class="radar-ring ring-3"></div><div class="radar-point point-1"></div><div class="radar-point point-2"></div><div class="radar-point point-3"></div></div>
+        <div class="risk-card"><span>Data Status</span><strong id="homeLiveStatus">CONNECTING</strong><small id="homeLiveTime">Live sources initializing…</small></div>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <div class="section-heading"><span>QUICK RESPONSE</span><h2>What do you need?</h2></div>
+    <div class="action-grid">
+        <div class="action-card emergency-card" onclick="window.location.href='pages/emergency.html'"><div class="action-icon">🚨</div><h3>Report Emergency</h3><p>Send a detailed report with GPS, people affected, contact details and optional photo/video.</p><span class="action-link">Report now →</span></div>
+        <div class="action-card" onclick="window.location.href='pages/help.html'"><div class="action-icon">🆘</div><h3>Emergency Help</h3><p>Fast SOS flow plus nearby hospitals, shelters, rescue services and volunteers.</p><span class="action-link">Get help →</span></div>
+        <div class="action-card" onclick="window.location.href='pages/map.html'"><div class="action-icon">🗺️</div><h3>Live Disaster Map</h3><p>Live weather, risk heatmap, emergency reports, roads and response resources.</p><span class="action-link">Open map →</span></div>
+        <div class="action-card" onclick="window.location.href='pages/map.html#route'"><div class="action-icon">🛣️</div><h3>Find Safer Route</h3><p>Use live routing to reach a selected hospital or shelter.</p><span class="action-link">Find route →</span></div>
+    </div>
+</section>
+
+<section class="risk-section" id="prediction">
+    <div class="section-heading"><span>AI / ML ENGINE</span><h2>Regional Risk Intelligence</h2><p>Choose a place, use your current location, or move to the map. RakshaNet fetches live weather conditions and generates a transparent, data-driven preliminary risk estimate.</p></div>
+    <div class="rn-prediction-wrap">
+        <div class="rn-card">
+            <h3>🔎 Analyze a Region</h3>
+            <div class="rn-grid-2" style="margin-top:12px;">
+                <div><label class="rn-label">Place / district / city</label><input id="predictionPlace" class="rn-input" placeholder="e.g. Guwahati, Assam"></div>
+                <div><label class="rn-label">Hazard focus</label><select id="predictionHazard" class="rn-select"><option value="auto">Auto detect</option><option value="flood">Flood / heavy rain</option><option value="landslide">Landslide</option><option value="heatwave">Heatwave</option><option value="severe">Severe weather</option></select></div>
+            </div>
+            <div class="rn-actions" style="margin-top:12px;">
+                <button class="rn-btn primary" id="analyzeRegionBtn">🧠 Analyze Region</button>
+                <button class="rn-btn ghost" id="analyzeMyLocationBtn">📍 Use My Location</button>
+                <button class="rn-btn ghost" onclick="window.location.href='pages/map.html'">🗺️ Open GIS</button>
+                <button class="rn-btn ghost" onclick="window.location.href='pages/pulse.html'">⚡ Open Weather Pulse</button>
+            </div>
+            <div id="predictionResult" style="margin-top:18px;">
+                <div class="rn-muted">No region analyzed yet.</div>
+            </div>
+        </div>
+        <div class="rn-card">
+            <h3>⚠️ Alert Prioritization</h3>
+            <p class="rn-muted">RakshaNet ranks a region by combining live weather signals, hazard focus and emergency context. It is an early-warning aid, not a replacement for official IMD warnings.</p>
+            <div class="rn-result-list">
+                <div class="rn-result-item"><strong>🔴 P1 Critical</strong><span class="rn-result-meta">Extreme or rapidly worsening conditions</span></div>
+                <div class="rn-result-item"><strong>🟠 P2 High</strong><span class="rn-result-meta">Serious conditions requiring preparedness</span></div>
+                <div class="rn-result-item"><strong>🟡 P3 Watch</strong><span class="rn-result-meta">Monitor trends and local reports</span></div>
+                <div class="rn-result-item"><strong>🟢 P4 Normal</strong><span class="rn-result-meta">No significant live signal detected</span></div>
+            </div>
+            <div class="rn-footer-note">Official-source escalation should always follow the latest IMD warning bulletin for the affected district/state.</div>
+        </div>
+    </div>
+</section>
+
+<section class="services-section" id="services">
+    <div class="section-heading"><span>RAKSHA NETWORK</span><h2>One platform. Multiple response systems.</h2></div>
+    <div class="services-grid">
+        <div class="service-item"><span>🧠</span><h3>Risk Prediction</h3><p>Live weather-driven preliminary flood, heavy-rain, heat and landslide risk analysis.</p></div>
+        <div class="service-item"><span>📡</span><h3>Live Data</h3><p>IMD APIs where available, Open-Meteo live forecast, and OpenStreetMap GIS services.</p></div>
+        <div class="service-item"><span>📍</span><h3>GIS Intelligence</h3><p>Live weather markers, risk heatmaps, emergency reports and nearby response assets.</p></div>
+        <div class="service-item"><span>👥</span><h3>Community Network</h3><p>Volunteer registration, availability and task handoff inside the prototype.</p></div>
+        <div class="service-item"><span>📢</span><h3>Emergency Alerts</h3><p>Browser notifications and SMS/app handoff links for the prototype; provider-based SMS needs a backend.</p></div>
+        <div class="service-item"><span>📴</span><h3>Offline-first Design</h3><p>Emergency reports and volunteer records are queued in local storage for later sync.</p></div>
+    </div>
+</section>
+
+<section class="alert-section" id="alerts">
+    <div class="alert-content">
+        <span>EMERGENCY ALERT NETWORK</span>
+        <h2>Use more than one warning channel.</h2>
+        <p>RakshaNet can surface official warnings, browser alerts and direct SMS handoff. A real automated SMS service requires a server-side provider such as an approved messaging gateway.</p>
+        <div class="alert-methods"><div>📱 App</div><div>📨 SMS</div><div>🚨 Siren</div><div>📢 Announcement</div><div>🏫 Local Terminal</div></div>
+    </div>
+</section>
+</main>
+<footer><div class="footer-logo">🛡️ RakshaNet</div><p>Intelligent Disaster Management & Emergency Response</p><p class="copyright">© 2026 RakshaNet Prototype</p></footer>
+<script src="js/location.js"></script>
+<script src="js/script.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

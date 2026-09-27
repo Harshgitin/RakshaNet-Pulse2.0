@@ -1,0 +1,162 @@
+{
+  "modelVersion": "rakshanet-landslide-v1",
+  "artifact": "landslide_model.onnx",
+  "featureImportance": {
+    "rain_1d": 0.08780981224601457,
+    "rain_3d": 0.08096386016642927,
+    "rain_7d": 0.061401774319697136,
+    "precip_1d": 0.0817684058297702,
+    "precip_3d": 0.1119459456487662,
+    "precip_7d": 0.08029229053554553,
+    "precip_hours_1d": 0.05494214641856526,
+    "precip_hours_3d": 0.08373745395270349,
+    "precip_hours_7d": 0.06413532159099167,
+    "temp_mean": 0.04396901881988873,
+    "temp_max": 0.04767133915557641,
+    "temp_min": 0.050451228911111784,
+    "wind_max": 0.038418167841003346,
+    "latitude": 0.042013630569273486,
+    "longitude": 0.04733216874027724,
+    "month": 0.023147435254385708
+  },
+  "featureQuantiles": {
+    "rain_1d": {
+      "q25": 2.3,
+      "median": 7.75,
+      "q75": 21.8,
+      "min": 0.0,
+      "max": 159.2
+    },
+    "rain_3d": {
+      "q25": 8.325,
+      "median": 27.700000000000003,
+      "q75": 67.375,
+      "min": 0.0,
+      "max": 392.8
+    },
+    "rain_7d": {
+      "q25": 23.625,
+      "median": 71.1,
+      "q75": 143.125,
+      "min": 0.0,
+      "max": 594.3
+    },
+    "precip_1d": {
+      "q25": 2.5,
+      "median": 8.65,
+      "q75": 24.8,
+      "min": 0.0,
+      "max": 159.2
+    },
+    "precip_3d": {
+      "q25": 10.425,
+      "median": 30.35,
+      "q75": 70.8,
+      "min": 0.0,
+      "max": 392.8
+    },
+    "precip_7d": {
+      "q25": 32.0,
+      "median": 75.05000000000001,
+      "q75": 146.975,
+      "min": 0.0,
+      "max": 594.3
+    },
+    "precip_hours_1d": {
+      "q25": 7.0,
+      "median": 14.0,
+      "q75": 22.0,
+      "min": 0.0,
+      "max": 24.0
+    },
+    "precip_hours_3d": {
+      "q25": 23.0,
+      "median": 43.0,
+      "q75": 58.25,
+      "min": 0.0,
+      "max": 72.0
+    },
+    "precip_hours_7d": {
+      "q25": 52.0,
+      "median": 89.0,
+      "q75": 123.0,
+      "min": 0.0,
+      "max": 168.0
+    },
+    "temp_mean": {
+      "q25": 18.475,
+      "median": 22.7,
+      "q75": 26.2,
+      "min": -10.2,
+      "max": 36.9
+    },
+    "temp_max": {
+      "q25": 21.6,
+      "median": 25.5,
+      "q75": 28.924999999999997,
+      "min": -4.1,
+      "max": 42.8
+    },
+    "temp_min": {
+      "q25": 14.8,
+      "median": 20.2,
+      "q75": 23.924999999999997,
+      "min": -17.0,
+      "max": 32.2
+    },
+    "wind_max": {
+      "q25": 5.8,
+      "median": 7.15,
+      "q75": 10.2,
+      "min": 2.9,
+      "max": 30.3
+    },
+    "latitude": {
+      "q25": 24.9906,
+      "median": 26.8352,
+      "q75": 32.19925,
+      "min": 8.4557,
+      "max": 34.5382
+    },
+    "longitude": {
+      "q25": 75.243975,
+      "median": 78.20150000000001,
+      "q75": 92.801,
+      "min": 72.8276,
+      "max": 96.1517
+    },
+    "month": {
+      "q25": 6.0,
+      "median": 7.0,
+      "q75": 8.0,
+      "min": 1.0,
+      "max": 12.0
+    }
+  },
+  "trainingDataset": {
+    "rows": 312,
+    "positiveRows": 199,
+    "negativeRows": 113,
+    "featureCount": 16
+  },
+  "validationNote": "Current deployed ONNX artifact remains the existing v1 model. Feature quantiles are contextual ranges for explanation, not causal explanations.",
+  "pipelineVersion": "rakshanet-intelligence-v2-final",
+  "activeModelFeatureSet": "weather-16",
+  "liveSemantics": {
+    "temp_mean": "previous 24 completed hours available from the weather request",
+    "temp_max": "previous 24 completed hours available from the weather request",
+    "temp_min": "previous 24 completed hours available from the weather request",
+    "wind_max": "previous 24 completed hours available from the weather request"
+  },
+  "contextSignals": {
+    "historical_ner_inventory": "connected as contextual susceptibility signal",
+    "terrain_elevation_slope": "best-effort contextual signal; not a trained feature in active ONNX artifact",
+    "soil_moisture": "exposed from coordinate weather when available; not a trained feature in active ONNX artifact",
+    "government_telemetry": "freshness-checked and shown; not silently injected into active ONNX artifact",
+    "satellite": "NASA GIBS imagery context; no numerical satellite feature is claimed in active ONNX artifact"
+  },
+  "deploymentRule": "Never describe contextual signals as trained ML features until a newly trained and independently validated artifact is exported.",
+  "candidateTrainingArtifact": "landslide_model_candidate.pkl",
+  "candidateValidationReport": "model_candidate_validation_report.json",
+  "activationPolicy": "Candidate training artifacts never replace the active ONNX model automatically."
+}

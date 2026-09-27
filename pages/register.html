@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | RakshaNet</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+</head>
+
+<body>
+<script>
+try { if (localStorage.getItem("rakshanet_user")) { window.location.replace("profile.html"); } } catch (_) {}
+</script>
+
+    <header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="login.html" class="login-btn rn-auth-btn">🔐 Login</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+    <!-- =========================
+         REGISTER PAGE
+    ========================== -->
+
+    <main class="rn-auth-page">
+
+        <div class="rn-auth-shell">
+
+            <!-- LEFT SIDE -->
+
+            <section class="rn-auth-intro">
+
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    RakshaNet Early Warning Network
+                </div>
+
+                <h1>
+                    Protect your
+                    <span>location.</span>
+                </h1>
+
+                <p>
+                    Create your RakshaNet account to receive
+                    personalized disaster warnings based on
+                    your registered location and selected hazards.
+                </p>
+
+
+                <div class="rn-auth-features">
+
+                    <div class="rn-auth-feature">
+                        <span>📍</span>
+                        <div>
+                            <strong>Permanent Location</strong>
+                            <small>
+                                Save your home or primary location
+                                for location-based alerts.
+                            </small>
+                        </div>
+                    </div>
+
+
+                    <div class="rn-auth-feature">
+                        <span>🌦️</span>
+                        <div>
+                            <strong>Hazard Monitoring</strong>
+                            <small>
+                                Choose the disaster types you want
+                                RakshaNet to monitor.
+                            </small>
+                        </div>
+                    </div>
+
+
+                    <div class="rn-auth-feature">
+                        <span>📱</span>
+                        <div>
+                            <strong>Early Warning Alerts</strong>
+                            <small>
+                                Receive important warnings even when
+                                the RakshaNet website is closed.
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT SIDE -->
+
+            <section class="rn-auth-card">
+
+                <div class="rn-auth-header">
+
+                    <span class="section-label">
+                        CREATE ACCOUNT
+                    </span>
+
+                    <h2>
+                        Register with RakshaNet
+                    </h2>
+
+                    <p>
+                        Set up your account and emergency alert
+                        preferences.
+                    </p>
+
+                </div>
+
+
+                <form id="registerForm">
+
+
+                    <!-- NAME -->
+
+                    <div class="rn-auth-field">
+
+                        <label for="registerName">
+                            Full Name
+                        </label>
+
+                        <input
+                            id="registerName"
+                            class="rn-input"
+                            type="text"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+
+                    <div class="rn-auth-field">
+
+                        <label for="registerMobile">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            id="registerMobile"
+                            class="rn-input"
+                            type="tel"
+                            placeholder="Enter your mobile number"
+                            autocomplete="tel"
+                            required
+                        >
+
+                        <small>
+                            This number will be used for emergency
+                            alert notifications.
+                        </small>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="rn-auth-field">
+
+                        <label for="registerEmail">
+                            Email
+                            <span class="rn-auth-optional">
+                                (optional)
+                            </span>
+                        </label>
+
+                        <input
+                            id="registerEmail"
+                            class="rn-input"
+                            type="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="rn-auth-field">
+
+                        <label for="registerPassword">
+                            Password
+                        </label>
+
+                        <input
+                            id="registerPassword"
+                            class="rn-input"
+                            type="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <small>
+                            Minimum 6 characters.
+                        </small>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="rn-auth-field">
+
+                        <label for="registerConfirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            id="registerConfirmPassword"
+                            class="rn-input"
+                            type="password"
+                            placeholder="Re-enter your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="rn-auth-location">
+
+                        <div class="rn-auth-section-title">
+                            <span>📍</span>
+
+                            <div>
+
+                                <strong>
+                                    Permanent Location
+                                </strong>
+
+                                <small>
+                                    This location will be used
+                                    for disaster alerts.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="rn-auth-location-search">
+
+                            <input
+                                id="registerLocation"
+                                class="rn-input"
+                                type="text"
+                                placeholder="Search city, district or village"
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="button"
+                                id="searchLocationBtn"
+                                class="rn-btn blue"
+                            >
+                                🔎 Search
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="locationResults"
+                            class="rn-auth-location-results"
+                        ></div>
+
+
+                        <div
+                            id="selectedLocation"
+                            class="rn-auth-selected-location"
+                        >
+                            No permanent location selected.
+                        </div>
+
+
+                        <input
+                            type="hidden"
+                            id="registerLatitude"
+                        >
+
+                        <input
+                            type="hidden"
+                            id="registerLongitude"
+                        >
+
+                    </div>
+
+
+                    <!-- ALERT PREFERENCES -->
+
+                    <div class="rn-auth-alerts">
+
+                        <div class="rn-auth-section-title">
+
+                            <span>🔔</span>
+
+                            <div>
+
+                                <strong>
+                                    Alert Preferences
+                                </strong>
+
+                                <small>
+                                    Select the hazards you want
+                                    RakshaNet to monitor.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="rn-alert-grid">
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="heavy_rain"
+                                    checked
+                                >
+
+                                <span>
+                                    🌧️ Heavy Rainfall
+                                </span>
+
+                            </label>
+
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="flood"
+                                    checked
+                                >
+
+                                <span>
+                                    🌊 Flood
+                                </span>
+
+                            </label>
+
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="landslide"
+                                    checked
+                                >
+
+                                <span>
+                                    ⛰️ Landslide
+                                </span>
+
+                            </label>
+
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="thunderstorm"
+                                    checked
+                                >
+
+                                <span>
+                                    ⛈️ Thunderstorm
+                                </span>
+
+                            </label>
+
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="extreme_heat"
+                                >
+
+                                <span>
+                                    ☀️ Extreme Heat
+                                </span>
+
+                            </label>
+
+
+                            <label class="rn-alert-option">
+
+                                <input
+                                    type="checkbox"
+                                    value="cyclone"
+                                >
+
+                                <span>
+                                    🌀 Cyclone
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONSENT -->
+
+                    <label class="rn-auth-consent">
+
+                        <input
+                            type="checkbox"
+                            id="alertConsent"
+                            required
+                        >
+
+                        <span>
+                            I agree to receive disaster-related
+                            alerts from RakshaNet for my selected
+                            location and hazards.
+                        </span>
+
+                    </label>
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        id="registerStatus"
+                        class="rn-auth-status"
+                    ></div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        id="registerButton"
+                        class="rn-btn primary rn-auth-submit"
+                    >
+                        🔔 Create RakshaNet Account
+                    </button>
+
+
+                    <p class="rn-auth-login-text">
+                        Already have an account?
+                        <a href="login.html">
+                            Login here
+                        </a>
+                    </p>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const backendBase =
+            window.location.protocol.startsWith("http")
+                ? ""
+                : "http://localhost:5000";
+
+
+        const $ = id =>
+            document.getElementById(id);
+
+
+        let selectedLocation = null;
+
+
+        // =====================================================
+        // LOCATION SEARCH
+        // =====================================================
+
+        async function searchLocation() {
+
+            const query =
+                $("registerLocation")
+                    .value
+                    .trim();
+
+            if (!query) {
+
+                $("locationResults").innerHTML =
+                    `<div class="rn-auth-location-message">
+                        Enter a city, district or village.
+                    </div>`;
+
+                return;
+
+            }
+
+
+            const button =
+                $("searchLocationBtn");
+
+            button.disabled = true;
+
+            button.textContent =
+                "Searching...";
+
+
+            $("locationResults").innerHTML =
+                `<div class="rn-auth-location-message">
+                    🔎 Searching location...
+                </div>`;
+
+
+            try {
+
+                const url =
+                    "https://nominatim.openstreetmap.org/search?" +
+                    new URLSearchParams({
+
+                        q: `${query}, India`,
+
+                        format: "jsonv2",
+
+                        limit: "5",
+
+                        addressdetails: "1"
+
+                    });
+
+
+                const response =
+                    await fetch(url);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Location search failed (${response.status})`
+                    );
+
+                }
+
+
+                const places =
+                    await response.json();
+
+
+                if (!places.length) {
+
+                    $("locationResults").innerHTML =
+                        `<div class="rn-auth-location-message">
+                            No location found. Try another city,
+                            district or village.
+                        </div>`;
+
+                    return;
+
+                }
+
+
+                $("locationResults").innerHTML =
+                    places.map(place => {
+
+                        const name =
+                            place.display_name ||
+                            "Unknown location";
+
+                        return `
+
+                            <button
+                                type="button"
+                                class="rn-location-result"
+                                data-lat="${place.lat}"
+                                data-lon="${place.lon}"
+                                data-name="${escapeHTML(name)}"
+                            >
+
+                                <span>📍</span>
+
+                                <span>
+                                    <strong>
+                                        ${escapeHTML(
+                                            place.name ||
+                                            query
+                                        )}
+                                    </strong>
+
+                                    <small>
+                                        ${escapeHTML(name)}
+                                    </small>
+                                </span>
+
+                            </button>
+
+                        `;
+
+                    }).join("");
+
+
+                document
+                    .querySelectorAll(".rn-location-result")
+                    .forEach(button => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                const location = {
+
+                                    name:
+                                        button.dataset.name,
+
+                                    latitude:
+                                        Number(
+                                            button.dataset.lat
+                                        ),
+
+                                    longitude:
+                                        Number(
+                                            button.dataset.lon
+                                        )
+
+                                };
+
+
+                                selectedLocation =
+                                    location;
+
+
+                                $("registerLatitude").value =
+                                    location.latitude;
+
+                                $("registerLongitude").value =
+                                    location.longitude;
+
+
+                                $("selectedLocation").innerHTML =
+                                    `
+                                    <strong>
+                                        ✅ ${escapeHTML(
+                                            location.name
+                                        )}
+                                    </strong>
+                                    <small>
+                                        Lat ${location.latitude.toFixed(6)}
+                                        ·
+                                        Lng ${location.longitude.toFixed(6)}
+                                    </small>
+                                    `;
+
+
+                                $("locationResults")
+                                    .innerHTML = "";
+
+                            }
+                        );
+
+                    });
+
+
+            } catch (error) {
+
+                $("locationResults").innerHTML =
+                    `<div class="rn-auth-location-message danger">
+                        ${escapeHTML(error.message)}
+                    </div>`;
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "🔎 Search";
+
+            }
+
+        }
+
+
+        $("searchLocationBtn")
+            .addEventListener(
+                "click",
+                searchLocation
+            );
+
+
+        $("registerLocation")
+            .addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        searchLocation();
+
+                    }
+
+                }
+            );
+
+
+        // =====================================================
+        // REGISTER
+        // =====================================================
+
+        $("registerForm")
+            .addEventListener(
+                "submit",
+                async event => {
+
+                    event.preventDefault();
+
+
+                    const name =
+                        $("registerName")
+                            .value
+                            .trim();
+
+
+                    const mobile =
+                        $("registerMobile")
+                            .value
+                            .trim();
+
+
+                    const email =
+                        $("registerEmail")
+                            .value
+                            .trim();
+
+
+                    const password =
+                        $("registerPassword")
+                            .value;
+
+
+                    const confirmPassword =
+                        $("registerConfirmPassword")
+                            .value;
+
+
+                    const latitude =
+                        $("registerLatitude")
+                            .value;
+
+
+                    const longitude =
+                        $("registerLongitude")
+                            .value;
+
+
+                    if (
+                        password !==
+                        confirmPassword
+                    ) {
+
+                        showStatus(
+                            "Passwords do not match.",
+                            "danger"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !selectedLocation ||
+                        !latitude ||
+                        !longitude
+                    ) {
+
+                        showStatus(
+                            "Please select your permanent location.",
+                            "danger"
+                        );
+
+                        return;
+
+                    }
+
+
+                    const alertPreferences =
+                        Array.from(
+                            document.querySelectorAll(
+                                ".rn-alert-option input:checked"
+                            )
+                        ).map(
+                            checkbox =>
+                                checkbox.value
+                        );
+
+
+                    if (
+                        !alertPreferences.length
+                    ) {
+
+                        showStatus(
+                            "Select at least one alert type.",
+                            "danger"
+                        );
+
+                        return;
+
+                    }
+
+
+                    const button =
+                        $("registerButton");
+
+                    button.disabled = true;
+
+                    button.textContent =
+                        "Creating account...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                `${backendBase}/api/auth/register`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            name,
+
+                                            mobile,
+
+                                            email,
+
+                                            password,
+
+                                            permanentLocation: {
+                                                name:
+                                                    selectedLocation.name
+                                            },
+
+                                            latitude:
+                                                Number(
+                                                    latitude
+                                                ),
+
+                                            longitude:
+                                                Number(
+                                                    longitude
+                                                ),
+
+                                            alertPreferences
+
+                                        })
+
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                data.error ||
+                                "Registration failed."
+                            );
+
+                        }
+
+
+                        localStorage.setItem(
+                            "rakshanet_user",
+                            JSON.stringify(
+                                data.user
+                            )
+                        );
+
+
+                        showStatus(
+                            "✅ Account created successfully! Redirecting...",
+                            "success"
+                        );
+
+
+                        setTimeout(
+                            () => {
+
+                                window.location.href =
+                                    "profile.html";
+
+                            },
+                            1000
+                        );
+
+
+                    } catch (error) {
+
+                        showStatus(
+                            error.message,
+                            "danger"
+                        );
+
+                    } finally {
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "🔔 Create RakshaNet Account";
+
+                    }
+
+                }
+            );
+
+
+        // =====================================================
+        // HELPERS
+        // =====================================================
+
+        function showStatus(
+            message,
+            type
+        ) {
+
+            const box =
+                $("registerStatus");
+
+
+            box.className =
+                `rn-auth-status ${type}`;
+
+
+            box.textContent =
+                message;
+
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replace(
+                    /[&<>'"]/g,
+                    char =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            "'": "&#39;",
+                            '"': "&quot;"
+                        })[char]
+                );
+
+        }
+
+    </script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

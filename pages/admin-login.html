@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RakshaNet | Admin Login</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+    <link rel="stylesheet" href="../css/navigation.css"
+    >
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>
+            Raksha<span class="logo-highlight">Net</span>
+        </span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section
+        style="
+            min-height: calc(100vh - 180px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:40px 20px;
+        "
+    >
+
+        <div
+            class="emergency-form-card"
+            style="
+                width:100%;
+                max-width:520px;
+            "
+        >
+
+            <div class="emergency-header">
+
+                <span class="emergency-label">
+                    🔐 ADMINISTRATOR ACCESS
+                </span>
+
+                <h1>
+                    RakshaNet Admin Login
+                </h1>
+
+                <p>
+                    Secure access to disaster reports,
+                    SOS alerts, volunteers and
+                    response management.
+                </p>
+
+            </div>
+
+
+            <form id="adminLoginForm">
+
+                <div class="form-section">
+
+                    <label for="adminIdentifier">
+                        Mobile number or Email
+                    </label>
+
+                    <input
+                        class="rn-input"
+                        id="adminIdentifier"
+                        type="text"
+                        placeholder="Enter your admin mobile or email"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-section">
+
+                    <label for="adminPassword">
+                        Password
+                    </label>
+
+                    <input
+                        class="rn-input"
+                        id="adminPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    id="adminLoginMessage"
+                    class="rn-alert-banner"
+                    style="display:none;"
+                ></div>
+
+
+                <button
+                    type="submit"
+                    class="submit-emergency-btn"
+                    id="adminLoginButton"
+                >
+                    🔐 LOGIN AS ADMIN
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+        🛡️ RakshaNet
+    </div>
+
+    <p>
+        Intelligent Disaster Management & Emergency Response
+    </p>
+
+</footer>
+
+
+<script src="../js/admin.js"></script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+
+</html>

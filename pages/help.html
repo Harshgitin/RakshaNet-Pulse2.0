@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RakshaNet | Emergency Help & Volunteers</title>
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+<div class="logo">
+    <span class="logo-icon">🛡️</span>
+    <span>
+        Raksha<span class="logo-highlight">Net</span>
+    </span>
+</div>
+
+<button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+<div class="nav-actions">
+
+    <a
+        href="login.html"
+        class="login-btn rn-auth-btn"
+    >
+        🔐 Register / Login
+    </a>
+
+    <a
+        href="emergency.html"
+        class="emergency-nav-btn"
+    >
+        🚨 Emergency
+    </a>
+
+</div>
+
+</header>
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main>
+
+<section class="emergency-page">
+
+<!-- =================================================
+     PAGE HEADER
+================================================== -->
+
+<div class="emergency-header">
+
+    <span class="emergency-label">
+        🆘 FAST RESPONSE
+    </span>
+
+    <h1>
+        Emergency Help
+    </h1>
+
+    <p>
+        Get your location, request immediate rescue,
+        and find nearby emergency services.
+    </p>
+
+</div>
+
+
+<div class="rn-help-top-grid">
+
+<!-- =================================================
+     1. IMMEDIATE SOS
+================================================== -->
+
+<section>
+
+    <div class="rn-card rn-sos">
+
+        <h3>
+            🚨 Immediate Rescue / SOS
+        </h3>
+
+        <p class="rn-muted">
+            For urgent situations, keep the request short.
+            Your GPS location and a brief description are enough.
+        </p>
+
+
+        <!-- LOCATION + 112 -->
+
+        <div class="rn-actions">
+
+            <button
+                id="getHelpLocation"
+                class="rn-btn primary"
+                type="button"
+            >
+                📍 Detect Current Location
+            </button>
+
+            <a
+                class="rn-btn danger"
+                href="tel:112"
+            >
+                📞 Call 112
+            </a>
+
+        </div>
+
+
+        <!-- LOCATION STATUS -->
+
+        <div
+            id="helpLocationText"
+            class="rn-alert-banner"
+            style="margin-top:12px;"
+        >
+            Location not detected.
+        </div>
+
+
+        <!-- SOS DESCRIPTION -->
+
+        <label
+            class="rn-label"
+            style="margin-top:12px;"
+            for="sosDescription"
+        >
+            Immediate description
+        </label>
+
+        <textarea
+            id="sosDescription"
+            class="rn-textarea"
+            placeholder="e.g. 5 people trapped by floodwater near the bridge"
+        ></textarea>
+
+
+        <!-- SEND SOS -->
+
+        <button
+            id="sendSos"
+            class="rn-btn danger"
+            type="button"
+            style="margin-top:10px;"
+        >
+            🆘 SEND SOS
+        </button>
+
+
+        <!-- SOS RESULT -->
+
+        <div id="sosResult"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     2. NEARBY EMERGENCY HELP
+================================================== -->
+
+<section>
+
+    <div class="rn-card">
+
+        <h3>
+            📍 Nearby Help & Safety
+        </h3>
+
+        <p class="rn-muted">
+            Find hospitals, shelters, relief services and rescue
+            resources around your detected location.
+        </p>
+
+        <p class="rn-small">
+            Availability shows mapped geographic locations,
+            not guaranteed live capacity.
+        </p>
+
+
+        <!-- SERVICE BUTTONS -->
+
+        <div
+            class="rn-actions"
+            style="margin-top:12px;"
+        >
+
+            <button
+                id="findHospital"
+                class="rn-btn blue"
+                type="button"
+            >
+                🏥 Hospitals
+            </button>
+
+            <button
+                id="findShelter"
+                class="rn-btn"
+                type="button"
+            >
+                🏠 Shelters
+            </button>
+
+            <button
+                id="findRelief"
+                class="rn-btn"
+                type="button"
+            >
+                📦 Relief
+            </button>
+
+            <button
+                id="findRescue"
+                class="rn-btn"
+                type="button"
+            >
+                🚒 Rescue
+            </button>
+
+        </div>
+
+
+        <!-- ONE RESULT CONTAINER ONLY -->
+
+        <div
+            id="nearbyResult"
+            class="rn-result-list"
+            style="margin-top:14px;"
+        >
+
+            <div class="rn-result-item">
+
+                <strong>
+                    Waiting for location
+                </strong>
+
+                <span class="rn-result-meta">
+                    Detect your location above,
+                    then choose an emergency service.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- =================================================
+     3. VOLUNTEER & RESOURCE COORDINATION
+================================================== -->
+
+<section
+    class="services-section rn-community-section"
+    id="community"
+    style="margin-top:32px;"
+>
+
+    <div class="section-heading">
+
+        <span>
+            COMMUNITY RESPONSE
+        </span>
+
+        <h2>
+            Volunteer & Resource Coordination
+        </h2>
+
+        <p>
+            Register available volunteers and generate
+            basic task suggestions based on skills and availability.
+        </p>
+
+    </div>
+
+
+    <div class="rn-grid-2">
+
+
+        <!-- VOLUNTEER REGISTRATION -->
+
+        <div class="rn-card">
+
+            <h3>
+                👥 Volunteer Registration
+            </h3>
+
+
+            <div
+                class="rn-grid-2"
+                style="margin-top:12px;"
+            >
+
+                <input
+                    id="volName"
+                    class="rn-input"
+                    type="text"
+                    placeholder="Name"
+                >
+
+                <input
+                    id="volPhone"
+                    class="rn-input"
+                    type="tel"
+                    placeholder="Phone"
+                >
+
+            </div>
+
+
+            <div
+                class="rn-grid-2"
+                style="margin-top:10px;"
+            >
+
+                <select
+                    id="volSkill"
+                    class="rn-select"
+                >
+
+                    <option value="Medical">
+                        Medical
+                    </option>
+
+                    <option value="Rescue">
+                        Rescue
+                    </option>
+
+                    <option value="Transport">
+                        Transport
+                    </option>
+
+                    <option value="Food">
+                        Food / Relief
+                    </option>
+
+                    <option value="Communication">
+                        Communication
+                    </option>
+
+                    <option value="General">
+                        General support
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="volAvailability"
+                    class="rn-select"
+                >
+
+                    <option value="Available now">
+                        Available now
+                    </option>
+
+                    <option value="Available today">
+                        Available today
+                    </option>
+
+                    <option value="Not available">
+                        Not available
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                id="registerVolunteer"
+                class="rn-btn primary"
+                type="button"
+                style="margin-top:12px;"
+            >
+                ✅ Register Volunteer
+            </button>
+
+
+            <div
+                id="volunteerStatus"
+                style="margin-top:12px;"
+            ></div>
+
+        </div>
+
+
+        <!-- SUGGESTED TASKS -->
+
+        <div class="rn-card">
+
+            <h3>
+                📋 Suggested Tasks
+            </h3>
+
+            <p class="rn-muted">
+                Basic prototype task suggestions based on
+                volunteer skills and availability.
+            </p>
+
+            <div
+                id="taskList"
+                class="rn-result-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</section>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="footer-logo">
+    🛡️ RakshaNet
+</div>
+
+<p>
+    Intelligent Disaster Management & Emergency Response
+</p>
+
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="../js/location.js"></script>
+
+<script src="../js/script.js"></script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

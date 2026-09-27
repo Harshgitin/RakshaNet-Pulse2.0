@@ -1,0 +1,16 @@
+{
+  "validation": "spatial_grouped_5fold",
+  "rows": 312,
+  "positive_rows": 199,
+  "negative_rows": 113,
+  "held_out_rows": 63,
+  "holdout_accuracy": 0.6031746031746031,
+  "holdout_precision": 0.6904761904761905,
+  "holdout_recall": 0.7073170731707317,
+  "holdout_f1": 0.6987951807228916,
+  "holdout_roc_auc": 0.647450110864745,
+  "grouped_cv_f1_mean": 0.7765681529536952,
+  "grouped_cv_f1_std": 0.04162543084469511,
+  "activation_status": "candidate_only",
+  "note": "Candidate model is intentionally separate from the active ONNX/PKL pair. Export and independently validate before activation."
+}

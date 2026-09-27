@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | RakshaNet</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+
+    <style>
+        .login-page {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(15, 29, 48, 0.96);
+            border: 1px solid rgba(37, 214, 162, 0.18);
+            border-radius: 22px;
+            padding: 38px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            background: rgba(37, 214, 162, 0.12);
+            border: 1px solid rgba(37, 214, 162, 0.25);
+        }
+
+        .login-header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .login-header p {
+            margin: 0;
+            color: #9eacbd;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .login-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .login-field label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #dce5ef;
+        }
+
+        .login-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(7, 17, 31, 0.85);
+            color: #ffffff;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .login-field input:focus {
+            border-color: #25d6a2;
+            box-shadow: 0 0 0 3px rgba(37, 214, 162, 0.10);
+        }
+
+        .login-btn-main {
+            width: 100%;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            background: #25d6a2;
+            color: #06131f;
+            transition: 0.2s ease;
+        }
+
+        .login-btn-main:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+
+        .login-btn-main:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-message {
+            min-height: 20px;
+            margin-top: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-footer {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            color: #9eacbd;
+            font-size: 14px;
+        }
+
+        .login-footer a {
+            color: #25d6a2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #9eacbd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-home:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+            .login-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<script>
+try { if (localStorage.getItem("rakshanet_user")) { window.location.replace("profile.html"); } } catch (_) {}
+</script>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon">🛡️</span>
+            <span>Raksha<span class="logo-highlight">Net</span></span>
+        </div>
+
+        <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+        <div class="nav-actions">
+            <a href="register.html" class="login-btn">📝 Register</a>
+            <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+        </div>
+    </header>
+
+    <!-- Login -->
+    <main class="login-page">
+
+        <section class="login-card">
+
+            <div class="login-header">
+                <div class="login-icon">🔐</div>
+
+                <h1>Welcome Back</h1>
+
+                <p>Login to your RakshaNet account</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+
+                <div class="login-field">
+                    <label for="identifier">Email or Mobile</label>
+
+                    <input
+                        type="text"
+                        id="identifier"
+                        name="identifier"
+                        placeholder="Enter your email or mobile number"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="login-field">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" id="loginSubmit" class="login-btn-main">
+                    🔐 Login
+                </button>
+
+                <div id="loginMessage" class="login-message"></div>
+
+            </form>
+
+            <div class="login-footer">
+                Don't have an account?
+                <a href="register.html">Create Account</a>
+            </div>
+
+            <a href="../index.html" class="back-home">← Back to RakshaNet Home</a>
+
+        </section>
+
+    </main>
+
+    <script>
+        const API_BASE =
+            window.location.protocol === "http:" ||
+            window.location.protocol === "https:"
+                ? ""
+                : "http://localhost:5000";
+
+        const loginForm = document.getElementById("loginForm");
+        const loginMessage = document.getElementById("loginMessage");
+        const loginSubmit = document.getElementById("loginSubmit");
+
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const identifier =
+                document.getElementById("identifier").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            if (!identifier || !password) {
+                loginMessage.textContent = "Please enter your login details.";
+                loginMessage.style.color = "#ffb4b4";
+                return;
+            }
+
+            loginSubmit.disabled = true;
+            loginSubmit.textContent = "⏳ Logging in...";
+            loginMessage.textContent = "";
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/api/auth/login`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            identifier,
+                            password
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || "Login failed."
+                    );
+                }
+
+                // Save logged-in user
+                localStorage.setItem(
+                    "rakshanet_user",
+                    JSON.stringify(data.user)
+                );
+
+                loginMessage.textContent =
+                    "✅ Login successful! Redirecting...";
+
+                loginMessage.style.color = "#25d6a2";
+
+                setTimeout(() => {
+                    window.location.href = "profile.html";
+                }, 700);
+
+            } catch (error) {
+                console.error("Login error:", error);
+
+                loginMessage.textContent =
+                    error.message || "Unable to login.";
+
+                loginMessage.style.color = "#ffb4b4";
+
+                loginSubmit.disabled = false;
+                loginSubmit.textContent = "🔐 Login";
+            }
+        });
+    </script>
+
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

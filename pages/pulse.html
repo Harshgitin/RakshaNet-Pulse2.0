@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RakshaNet Pulse 2.0 — National Weather Big Data Analytics Platform for India">
+    <title>RakshaNet | Pulse 2.0</title>
+    <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+    <link rel="stylesheet" href="../css/pulse.css">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
+</head>
+<body id="pulseTop">
+<header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+    <div class="nav-actions">
+        <a href="admin-login.html" class="login-btn">🔐 Admin</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+<main class="pulse-page">
+    <section class="pulse-hero" id="pulseOverview">
+        <div class="pulse-kicker">⚡ RAKSHANET PULSE 2.0 · SIH26069</div>
+        <div class="pulse-hero-grid">
+            <div>
+                <div class="pulse-live-badge"><i></i> NATIONAL WEATHER INTELLIGENCE</div>
+                <h1>Observe. <span>Correlate.</span> Verify.</h1>
+                <p>Pulse 2.0 collects official alerts, public datasets, public-web signals, social posts and citizen reports into one traceable event stream. Every record keeps its source, timestamp, location state and verification state visible.</p>
+                <div class="pulse-hero-actions">
+                    <button id="pulseRefresh" class="pulse-btn pulse-btn-primary">↻ Refresh live sources</button>
+                    <a href="emergency.html" class="pulse-btn pulse-btn-ghost">📍 Report an event</a>
+                    <a href="admin-login.html" class="pulse-btn pulse-btn-ghost">🔐 Admin review</a>
+                </div>
+                <div id="pulseLastUpdate" class="pulse-last-update">Loading live ingestion…</div>
+            </div>
+            <div class="pulse-hero-card">
+                <div class="pulse-orbit pulse-orbit-1"></div>
+                <div class="pulse-orbit pulse-orbit-2"></div>
+                <div class="pulse-orbit pulse-orbit-3"></div>
+                <div class="pulse-core">INDIA<br><small>NEAR-REAL-TIME PULSE</small></div>
+                <div class="pulse-hero-side-stat"><span>Map coverage</span><strong id="heroMapped">—</strong><small>records with valid coordinates</small></div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="pulse-jumpbar" aria-label="Pulse sections">
+        <a href="#pulseFilters">Filters</a>
+        <a href="#pulseOverviewKpis">Overview</a>
+        <a href="#pulseLive">Live stream</a>
+        <a href="#pulseMapSection">Map</a>
+        <a href="#pulseObservations">Data</a>
+        <a href="#pulseSources">Sources</a>
+        <a href="#pulseReview">Review</a>
+        <a href="#pulsePipeline">Pipeline</a>
+        <a href="#pulseTop">↑ Top</a>
+    </nav>
+
+    <section class="pulse-control-card" id="pulseFilters">
+        <div class="pulse-section-kicker">ANALYTICS FILTERS</div>
+        <div class="pulse-control-heading">
+            <div>
+                <h2>Find the signal you need</h2>
+                <p>Filter by time, hazard, source, region and verification state. No record is added to fill a missing source.</p>
+            </div>
+            <div id="pulseFilterStatus" class="pulse-mini-status">All indexed events</div>
+        </div>
+        <div class="pulse-filter-grid">
+            <label><span>Quick time</span><select id="pulseTimeFilter"><option value="1h">Last 1 hour</option><option value="6h">Last 6 hours</option><option value="24h" selected>Last 24 hours</option><option value="7d">Last 7 days</option><option value="all">All indexed</option><option value="custom">Custom dates</option></select></label>
+            <label><span>From date</span><input id="pulseFromDate" type="datetime-local" disabled></label>
+            <label><span>To date</span><input id="pulseToDate" type="datetime-local" disabled></label>
+            <label><span>Event</span><select id="pulseEventFilter"><option value="all">All events</option><option value="rainfall">Rainfall</option><option value="thunderstorm">Thunderstorm</option><option value="flooding">Flooding</option><option value="heatwave">Heatwave</option><option value="fog">Fog</option><option value="dust_storm">Dust storm</option><option value="strong_winds">Strong winds</option><option value="other">Other</option></select></label>
+            <label><span>Source</span><select id="pulseSourceFilter"><option value="all">All sources</option><option value="official">Official</option><option value="public_dataset">Public dataset</option><option value="social">Social</option><option value="web">Public web</option><option value="citizen">Citizen</option><option value="weather_api">Public API</option></select></label>
+            <label><span>Location</span><input id="pulseStateFilter" type="text" placeholder="City, district or state"></label>
+            <label><span>Verification</span><select id="pulseVerificationFilter"><option value="ALL">All statuses</option><option value="VERIFIED_OFFICIAL">Official source</option><option value="SOURCE_VERIFIED">Source verified</option><option value="CORROBORATED">Corroborated</option><option value="NEEDS_REVIEW">Needs review</option><option value="LOW_CONFIDENCE">Low confidence</option><option value="UNVERIFIED_CITIZEN">Unverified citizen</option></select></label>
+            <label class="pulse-filter-search"><span>Search</span><input id="pulseSearch" type="search" placeholder="City, district, keyword, hashtag or author"></label>
+            <button id="pulseApplyFilters" class="pulse-btn pulse-btn-secondary">Apply filters</button>
+        </div>
+    </section>
+
+    <section class="pulse-kpi-grid" id="pulseOverviewKpis">
+        <article class="pulse-kpi"><span>Indexed events</span><strong id="kpiTotal">—</strong><small>unique source records</small></article>
+        <article class="pulse-kpi"><span>Official alerts</span><strong id="kpiOfficial">—</strong><small id="kpiOfficialDetail">NDMA SACHET / IMD</small></article>
+        <article class="pulse-kpi"><span>Social signals</span><strong id="kpiSocial">—</strong><small>public posts matched</small></article>
+        <article class="pulse-kpi"><span>Web signals</span><strong id="kpiWeb">—</strong><small>public coverage indexed</small></article>
+        <article class="pulse-kpi"><span>Citizen reports</span><strong id="kpiCitizen">—</strong><small>RakshaNet reports</small></article>
+        <article class="pulse-kpi"><span>Review queue</span><strong id="kpiReview">—</strong><small>not confirmed as official</small></article>
+    </section>
+
+    <section class="pulse-data-strip">
+        <div><span>GPS / map-ready</span><strong id="qualityMapped">—</strong></div>
+        <div><span>Derived location</span><strong id="qualityDerived">—</strong></div>
+        <div><span>Media-bearing records</span><strong id="qualityMedia">—</strong></div>
+        <div><span>Storage</span><strong id="storageMode">—</strong></div>
+        <div><span>Public API observations</span><strong id="qualityApi">—</strong></div>
+        <div><span>Public dataset records</span><strong id="qualityDataset">—</strong></div>
+    </section>
+
+    <section class="pulse-grid pulse-grid-main" id="pulseLive">
+        <div class="pulse-panel pulse-feed-panel">
+            <div class="pulse-panel-head">
+                <div><span>LIVE EVENT STREAM</span><h2>Weather intelligence feed</h2></div>
+                <div id="pulseEventCount" class="pulse-count-badge">0 events</div>
+            </div>
+            <div class="pulse-feed-note">Source-first records. Repeated updates from the same official feed are preserved when their source identifiers differ.</div>
+            <div id="pulseEventFeed" class="pulse-event-feed"><div class="pulse-empty">Ingesting live sources…</div></div>
+        </div>
+        <div class="pulse-panel pulse-analytics-panel">
+            <div class="pulse-panel-head"><div><span>ANALYTICS</span><h2>Event distribution</h2></div></div>
+            <div id="pulseCategoryChart" class="pulse-bars"></div>
+            <div class="pulse-divider"></div>
+            <div class="pulse-panel-head pulse-subhead"><div><span>STATE FOOTPRINT</span><h3>Where signals are appearing</h3></div></div>
+            <div id="pulseStateChart" class="pulse-bars pulse-bars-compact"></div>
+            <div class="pulse-divider"></div>
+            <div class="pulse-panel-head pulse-subhead"><div><span>SOURCE MIX</span><h3>Where the data comes from</h3></div></div>
+            <div id="pulseSourceMix" class="pulse-source-list"></div>
+        </div>
+    </section>
+
+    <section class="pulse-panel pulse-observations-panel" id="pulseObservations">
+        <div class="pulse-panel-head">
+            <div><span>PUBLIC OBSERVATIONS</span><h2>Live API & dataset snapshots</h2><p>Raw observations are shown separately from alerts. Values are displayed only when supplied by the connected source.</p></div>
+        </div>
+        <div class="pulse-observation-grid">
+            <div>
+                <div class="pulse-subhead"><h3>Open-Meteo public API</h3></div>
+                <div id="pulseApiObservations" class="pulse-observation-list"></div>
+            </div>
+            <div>
+                <div class="pulse-subhead"><h3>NWDP / NWIC public dataset</h3></div>
+                <div id="pulseDatasetObservations" class="pulse-observation-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pulse-panel pulse-map-panel" id="pulseMapSection">
+        <div class="pulse-panel-head">
+            <div>
+                <span>GEO VISUALIZATION</span>
+                <h2>Location-aware event map</h2>
+                <p>Markers appear only when the source provides usable geometry/coordinates or when a single clearly identified place is safely geocoded. Multi-area alerts are not reduced to one misleading point.</p>
+            </div>
+            <div class="pulse-map-tools"><span class="pulse-map-provider" id="pulseMapProvider">MapLibre · OpenFreeMap</span><button id="pulseFitMap" class="pulse-map-fit" type="button">Fit visible</button></div>
+        </div>
+        <div id="pulseMap"></div>
+        <div id="pulseMapNote" class="pulse-map-note">Map data loads from the filtered event stream. No location is fabricated.</div>
+    </section>
+
+    <section class="pulse-grid pulse-grid-source" id="pulseSources">
+        <div class="pulse-panel">
+            <div class="pulse-panel-head"><div><span>OFFICIAL SOURCES</span><h2>Authoritative alert layer</h2><p>Direct source links are preserved for traceability.</p></div></div>
+            <div id="pulseOfficialList" class="pulse-alert-list"></div>
+        </div>
+        <div class="pulse-panel">
+            <div class="pulse-panel-head"><div><span>NETWORK HEALTH</span><h2>Ingestion connectors</h2><p>CONNECT, NO DATA, RATE LIMITED and access errors are shown separately.</p></div></div>
+            <div id="pulseSourceHealth" class="pulse-health-grid"></div>
+        </div>
+    </section>
+
+    <section class="pulse-grid pulse-grid-tables" id="pulseReview">
+        <div class="pulse-panel">
+            <div class="pulse-panel-head"><div><span>UNTRUSTED SIGNALS</span><h2>Social + public web review queue</h2><p>These records remain untrusted until corroborated or manually verified.</p></div><a class="pulse-inline-link" href="admin-login.html">Open Admin ↗</a></div>
+            <div id="pulseReviewFeed" class="pulse-review-feed"></div>
+        </div>
+        <div class="pulse-panel">
+            <div class="pulse-panel-head"><div><span>CITIZEN NETWORK</span><h2>Community reports</h2><p>Citizen evidence is stored as a separate source class and is never promoted automatically.</p></div><a class="pulse-inline-link" href="emergency.html">Report ↗</a></div>
+            <div id="pulseCitizenFeed" class="pulse-review-feed"></div>
+        </div>
+    </section>
+
+    <section class="pulse-panel pulse-integrity" id="pulsePipeline">
+        <div class="pulse-panel-head"><div><span>BIG DATA PIPELINE</span><h2>From internet signal to decision support</h2></div></div>
+        <div class="pulse-pipeline-grid">
+            <div><b>01</b><strong>Ingest</strong><small>CAP/RSS · APIs · public datasets · social · web · citizen reports</small></div>
+            <div><b>02</b><strong>Normalize</strong><small>timestamp · source ID · text · author · location · media</small></div>
+            <div><b>03</b><strong>Classify</strong><small>rainfall · thunderstorm · flood · heat · fog · dust · wind</small></div>
+            <div><b>04</b><strong>Deduplicate</strong><small>source ID + conservative text/time/location similarity</small></div>
+            <div><b>05</b><strong>Verify</strong><small>source identity · corroboration · review status · screening rules</small></div>
+            <div><b>06</b><strong>Visualize</strong><small>filters · map · analytics · source health · admin review</small></div>
+        </div>
+        <div class="pulse-integrity-grid">
+            <div class="pulse-integrity-box"><span>SCREENING LOGIC</span><strong>Automated integrity screening</strong><p>Source identity, content anomalies, duplicate candidates, metadata completeness and cross-source corroboration are evaluated without presenting a screening score as proof of truth.</p></div>
+            <div class="pulse-integrity-box"><span>TRACEABILITY</span><strong>Every record keeps its trail</strong><p>Source URL, source identifier, publication time, ingestion time, location basis and verification state are retained where the source provides them.</p></div>
+            <div class="pulse-integrity-box"><span>MEDIA</span><strong>Photos / videos when available</strong><p>Media metadata is preserved from connected social or citizen sources. Missing media is shown as unavailable; no placeholder is inserted.</p></div>
+            <div class="pulse-integrity-box"><span>STORAGE</span><strong>PostgreSQL when configured</strong><p>The production path uses centralized PostgreSQL. Local JSON fallback keeps the prototype usable when no database URL is configured.</p></div>
+        </div>
+    </section>
+
+    <section class="pulse-note-card">
+        <strong>⚠️ Data integrity & operational note</strong>
+        <p>Pulse 2.0 never fabricates weather events, GPS coordinates, media, source connections or verification outcomes. Official IMD, NDMA, district administration and disaster-management instructions take precedence. Social, web and citizen signals remain review material until corroborated or manually verified.</p>
+        <div class="pulse-source-links">
+            <a href="https://sachet.ndma.gov.in/" target="_blank" rel="noreferrer">NDMA SACHET ↗</a>
+            <a href="https://api.imd.gov.in/public/api_reference.html" target="_blank" rel="noreferrer">IMD API reference ↗</a>
+            <a href="https://docs.bsky.app/" target="_blank" rel="noreferrer">Bluesky API docs ↗</a>
+            <a href="https://www.gdeltproject.org/" target="_blank" rel="noreferrer">GDELT ↗</a>
+            <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap ↗</a><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap ↗</a><a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noreferrer">Open-Meteo geocoding ↗</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-logo">🛡️ RakshaNet</div>
+    <p>National Weather Big Data Analytics · SIH26069 prototype module</p>
+</footer>
+
+<button id="pulseTopButton" class="pulse-top-button" aria-label="Back to top">↑</button>
+
+<script type="module" src="../js/pulse.js"></script>
+<script src="../js/navigation.js"></script>
+</body>
+</html>

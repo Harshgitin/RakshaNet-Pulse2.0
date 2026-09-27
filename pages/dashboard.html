@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../favicon.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshaNet | Responder Dashboard</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/navigation.css">
+<style>
+.rn-toolbar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin:16px 0}.rn-btn{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.rn-btn.resolve{background:#1f9d72;color:#fff}.rn-btn.delete{background:#b42318;color:#fff}.rn-btn.clear{background:#5b6472;color:#fff}.rn-btn:disabled{opacity:.55;cursor:not-allowed}.rn-result-item{display:block;padding:14px;margin:10px 0;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.03)}.rn-result-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.rn-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.rn-status{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08)}.rn-empty{padding:20px 4px}.rn-muted{opacity:.7}.rn-alert-banner{padding:14px;border-radius:12px;margin-top:12px}.rn-alert-banner.success{background:rgba(31,157,114,.12)}.rn-alert-banner.danger{background:rgba(180,35,24,.12)}
+</style>
+</head>
+<body>
+
+
+
+
+    <header class="navbar">
+    <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span>Raksha<span class="logo-highlight">Net</span></span>
+    </div>
+
+    <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNavigation" aria-label="Open navigation">☰</button>
+    <nav class="nav-links" id="primaryNavigation">
+        <a href="../index.html" data-nav="home">Home</a>
+        <a href="map.html" data-nav="map">Live Map</a>
+        <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+        <a href="intelligence.html" data-nav="intelligence">Intelligence</a>
+        <a href="pulse.html" data-nav="pulse">Pulse 2.0</a>
+        <a href="../index.html#prediction" data-nav="prediction">AI Prediction</a>
+        <div class="nav-more">
+            <button class="nav-more-toggle" type="button" aria-expanded="false">
+                More <span class="nav-chevron">⌄</span>
+            </button>
+            <div class="nav-more-menu" aria-label="More RakshaNet sections">
+                <a href="help.html" data-nav="help">🆘 Emergency Help</a>
+                <a href="help.html#community" data-nav="community">👥 Community</a>
+                <a href="../index.html#alerts" data-nav="alerts">📢 Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-actions">
+       <a href="login.html" class="login-btn rn-auth-btn">
+    🔐 Register / Login
+</a>
+        <a href="emergency.html" class="emergency-nav-btn">🚨 Emergency</a>
+    </div>
+</header>
+
+
+
+
+
+<main><section class="emergency-page"><div class="emergency-header"><span class="emergency-label">🎯 RESPONSE OPERATIONS</span><h1>Responder Dashboard</h1><p>Manage emergency reports, SOS requests and volunteer records stored by the RakshaNet backend.</p></div>
+<div class="rn-toolbar"><button class="rn-btn clear" id="clearResolved">🗑️ Clear Resolved Reports</button><button class="rn-btn delete" id="clearAllReports">⚠️ Delete All Reports</button><button class="rn-btn" id="refreshDash">↻ Refresh</button></div>
+<div id="dashMessage"></div>
+<div class="rn-grid-4" id="dashSummary"></div>
+<div class="rn-grid-2" style="margin-top:18px"><div class="rn-card"><div class="rn-result-head"><h3>🚨 Emergency Reports</h3><span id="reportCount" class="rn-status"></span></div><div id="reportTable" class="rn-result-list"></div></div><div class="rn-card"><h3>🆘 Active SOS</h3><div id="sosTable" class="rn-result-list"></div></div></div>
+<div class="rn-card" style="margin-top:18px"><h3>👥 Volunteers</h3><div id="volTable" class="rn-result-list"></div></div>
+</section></main>
+<footer><div class="footer-logo">🛡️ RakshaNet</div><p>Responder Operations Dashboard</p></footer>
+<script>
+
+// =====================================================
+// RAKSHANET ADMIN DASHBOARD
+// =====================================================
+
+const $ =
+    id => document.getElementById(id);
+
+
+function esc(v) {
+
+    return String(v ?? '').replace(
+        /[&<>"']/g,
+        c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[c])
+    );
+
+}
+
+
+// =====================================================
+// ADMIN SESSION
+// =====================================================
+
+const adminToken =
+    sessionStorage.getItem(
+        "rakshanet_admin_token"
+    );
+
+const adminUser =
+    JSON.parse(
+        sessionStorage.getItem(
+            "rakshanet_admin_user"
+        ) || "null"
+    );
+
+
+// No admin token = go back to admin login
+
+if (!adminToken) {
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function msg(
+    text,
+    type = "success"
+) {
+
+    const box =
+        $("dashMessage");
+
+    if (!box) {
+        return;
+    }
+
+    box.innerHTML =
+        `<div class="rn-alert-banner ${type}">
+            ${esc(text)}
+        </div>`;
+
+    setTimeout(
+        () => {
+
+            if ($("dashMessage")) {
+                $("dashMessage").innerHTML =
+                    "";
+            }
+
+        },
+        3500
+    );
+
+}
+
+
+// =====================================================
+// API HELPER
+// =====================================================
+
+async function api(
+    url,
+    options = {}
+) {
+
+    const headers = {
+        ...(options.headers || {}),
+        "Authorization":
+            `Bearer ${adminToken}`
+    };
+
+
+    const response =
+        await fetch(
+            url,
+            {
+                ...options,
+                headers
+            }
+        );
+
+
+    const data =
+        await response
+            .json()
+            .catch(
+                () => ({})
+            );
+
+
+    // -------------------------------------------------
+    // Token expired / invalid
+    // -------------------------------------------------
+
+    if (
+        response.status === 401 ||
+        response.status === 403
+    ) {
+
+        sessionStorage.removeItem(
+            "rakshanet_admin_token"
+        );
+
+        sessionStorage.removeItem(
+            "rakshanet_admin_user"
+        );
+
+        window.location.href =
+            "admin-login.html";
+
+        throw new Error(
+            "Admin session expired. Please login again."
+        );
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error ||
+            `Request failed (${response.status})`
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+// =====================================================
+// DELETE ONE REPORT
+// =====================================================
+
+async function removeReport(
+    id
+) {
+
+    if (
+        !confirm(
+            `Delete report ${id}?\n\nThis cannot be undone.`
+        )
+    ) {
+        return;
+    }
+
+
+    try {
+
+        await api(
+            "/api/reports/" +
+            encodeURIComponent(id),
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        msg(
+            `Report ${id} deleted.`
+        );
+
+
+        await load();
+
+    } catch (error) {
+
+        console.error(
+            "Delete report error:",
+            error
+        );
+
+        msg(
+            error.message,
+            "danger"
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// RESOLVE REPORT
+// =====================================================
+
+async function resolveReport(
+    id
+) {
+
+    try {
+
+        await api(
+            "/api/reports/" +
+            encodeURIComponent(id) +
+            "/resolve",
+            {
+                method: "PATCH"
+            }
+        );
+
+
+        msg(
+            `Report ${id} marked RESOLVED.`
+        );
+
+
+        await load();
+
+    } catch (error) {
+
+        console.error(
+            "Resolve report error:",
+            error
+        );
+
+        msg(
+            error.message,
+            "danger"
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// LOAD DASHBOARD
+// =====================================================
+
+async function load() {
+
+    try {
+
+        const data =
+            await api(
+                "/api/dashboard"
+            );
+
+
+        // -------------------------------------------------
+        // SUMMARY CARDS
+        // -------------------------------------------------
+
+        const cards = [
+
+            [
+                "Reports",
+                data.summary.reports
+            ],
+
+            [
+                "Critical",
+                data.summary.criticalReports
+            ],
+
+            [
+                "Active SOS",
+                data.summary.activeSOS
+            ],
+
+            [
+                "Available Volunteers",
+                data.summary.availableVolunteers
+            ]
+
+        ];
+
+
+        $("dashSummary").innerHTML =
+            cards
+                .map(
+                    card => `
+                        <div class="rn-card">
+
+                            <span class="rn-muted">
+                                ${esc(card[0])}
+                            </span>
+
+                            <strong
+                                style="
+                                    font-size:30px;
+                                    display:block;
+                                    margin-top:6px
+                                "
+                            >
+                                ${esc(card[1])}
+                            </strong>
+
+                        </div>
+                    `
+                )
+                .join("");
+
+
+        // -------------------------------------------------
+        // REPORT COUNT
+        // -------------------------------------------------
+
+        $("reportCount").textContent =
+            `${data.reports.length} total`;
+
+
+        // -------------------------------------------------
+        // REPORTS
+        // -------------------------------------------------
+
+        $("reportTable").innerHTML =
+
+            data.reports
+                .slice(0, 50)
+                .map(
+                    report => {
+
+                        const status =
+                            String(
+                                report.status ||
+                                "NEW"
+                            ).toUpperCase();
+
+
+                        const evidence =
+                            report.evidence;
+
+
+                        const evidenceHtml =
+                            evidence?.url
+                                ? `
+                                    <div
+                                        class="rn-actions"
+                                        style="margin-top:8px"
+                                    >
+                                        <a
+                                            class="rn-btn"
+                                            href="${esc(evidence.url)}"
+                                            target="_blank"
+                                            rel="noopener"
+                                        >
+                                            📎 View Evidence
+                                        </a>
+                                    </div>
+                                  `
+                                : "";
+
+
+                        return `
+                            <div
+                                class="rn-result-item"
+                            >
+
+                                <div
+                                    class="rn-result-head"
+                                >
+
+                                    <div>
+
+                                        <strong>
+                                            ${esc(report.id)}
+                                            ·
+                                            ${esc(report.incidentType)}
+                                        </strong>
+
+                                        <div
+                                            class="rn-result-meta"
+                                        >
+                                            ${esc(
+                                                report.priority?.label ||
+                                                "NEW"
+                                            )}
+
+                                            ·
+
+                                            ${esc(
+                                                report.peopleAffected
+                                            )}
+                                            people
+
+                                            ·
+
+                                            ${esc(
+                                                new Date(
+                                                    report.timestamp
+                                                ).toLocaleString()
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <span
+                                        class="rn-status"
+                                    >
+                                        ${esc(status)}
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    class="rn-result-meta"
+                                    style="margin-top:8px"
+                                >
+                                    ${esc(
+                                        report.description ||
+                                        "No description"
+                                    )}
+                                </div>
+
+
+                                ${evidenceHtml}
+
+
+                                <div
+                                    class="rn-actions"
+                                >
+
+                                    ${
+                                        status !==
+                                        "RESOLVED"
+
+                                            ? `
+                                                <button
+                                                    class="rn-btn resolve"
+                                                    onclick='resolveReport(${JSON.stringify(report.id)})'
+                                                >
+                                                    ✅ Resolve
+                                                </button>
+                                              `
+                                            : ""
+                                    }
+
+
+                                    <button
+                                        class="rn-btn delete"
+                                        onclick='removeReport(${JSON.stringify(report.id)})'
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    }
+                )
+                .join("")
+
+            ||
+
+                `
+                    <div class="rn-muted rn-empty">
+                        No reports yet.
+                    </div>
+                `;
+
+
+        // -------------------------------------------------
+        // SOS
+        // -------------------------------------------------
+
+        $("sosTable").innerHTML =
+
+            data.sos
+                .slice(0, 50)
+                .map(
+                    sos => `
+
+                        <div
+                            class="rn-result-item"
+                        >
+
+                            <div
+                                class="rn-result-head"
+                            >
+
+                                <strong>
+                                    ${esc(sos.id)}
+                                </strong>
+
+                                <span
+                                    class="rn-status"
+                                >
+                                    ${esc(
+                                        sos.status ||
+                                        "NEW"
+                                    )}
+                                </span>
+
+                            </div>
+
+                            <span
+                                class="rn-result-meta"
+                            >
+
+                                ${esc(
+                                    sos.description
+                                )}
+
+                                ·
+
+                                ${esc(
+                                    new Date(
+                                        sos.timestamp
+                                    ).toLocaleString()
+                                )}
+
+                            </span>
+
+                            <div
+                                class="rn-small"
+                                style="margin-top:6px"
+                            >
+                                📍
+                                ${Number(
+                                    sos.latitude
+                                ).toFixed(5)}
+                                ,
+                                ${Number(
+                                    sos.longitude
+                                ).toFixed(5)}
+                            </div>
+
+                        </div>
+
+                    `
+                )
+                .join("")
+
+            ||
+
+                `
+                    <div class="rn-muted rn-empty">
+                        No SOS records.
+                    </div>
+                `;
+
+
+        // -------------------------------------------------
+        // VOLUNTEERS
+        // -------------------------------------------------
+
+        $("volTable").innerHTML =
+
+            data.volunteers
+                .slice(0, 50)
+                .map(
+                    volunteer => `
+
+                        <div
+                            class="rn-result-item"
+                        >
+
+                            <strong>
+                                ${esc(
+                                    volunteer.id
+                                )}
+                                ·
+                                ${esc(
+                                    volunteer.name
+                                )}
+                            </strong>
+
+                            <span
+                                class="rn-result-meta"
+                            >
+
+                                ${esc(
+                                    volunteer.skill
+                                )}
+
+                                ·
+
+                                ${esc(
+                                    volunteer.availability
+                                )}
+
+                                ·
+
+                                ${esc(
+                                    volunteer.phone
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    `
+                )
+                .join("")
+
+            ||
+
+                `
+                    <div class="rn-muted rn-empty">
+                        No volunteers registered.
+                    </div>
+                `;
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard load error:",
+            error
+        );
+
+
+        $("dashSummary").innerHTML = `
+
+            <div
+                class="rn-alert-banner danger"
+            >
+                ${esc(error.message)}
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// CLEAR RESOLVED REPORTS
+// =====================================================
+
+$("clearResolved").onclick =
+    async () => {
+
+        if (
+            !confirm(
+                "Delete all RESOLVED reports?"
+            )
+        ) {
+            return;
+        }
+
+
+        try {
+
+            const data =
+                await api(
+                    "/api/reports",
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            msg(
+                `${data.removed || 0} resolved report(s) deleted.`
+            );
+
+
+            await load();
+
+        } catch (error) {
+
+            console.error(
+                "Clear resolved error:",
+                error
+            );
+
+            msg(
+                error.message,
+                "danger"
+            );
+
+        }
+
+    };
+
+
+// =====================================================
+// DELETE ALL REPORTS
+// =====================================================
+
+$("clearAllReports").onclick =
+    async () => {
+
+        if (
+            !confirm(
+                "Delete ALL emergency reports?\n\nThis cannot be undone."
+            )
+        ) {
+            return;
+        }
+
+
+        try {
+
+            const reports =
+                await api(
+                    "/api/dashboard"
+                );
+
+
+            const allReports =
+                reports.reports || [];
+
+
+            for (
+                const report
+                of allReports
+            ) {
+
+                await api(
+                    "/api/reports/" +
+                    encodeURIComponent(
+                        report.id
+                    ),
+                    {
+                        method:
+                            "DELETE"
+                    }
+                );
+
+            }
+
+
+            msg(
+                `${allReports.length} report(s) deleted.`
+            );
+
+
+            await load();
+
+        } catch (error) {
+
+            console.error(
+                "Delete all reports error:",
+                error
+            );
+
+            msg(
+                error.message,
+                "danger"
+            );
+
+        }
+
+    };
+
+
+// =====================================================
+// REFRESH
+// =====================================================
+
+$("refreshDash").onclick =
+    load;
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+load();
+
+</script>
+<script src="../js/notifications.js"></script>
+<script src="../js/navigation.js"></script>
+</body></html>
